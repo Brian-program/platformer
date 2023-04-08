@@ -1,0 +1,9 @@
+{
+  "rds_host": "project4500.cki3cf27nprn.us-east-1.rds.amazonaws.com",
+  "rds_port": "3306",
+  "rds_user": "blu",
+  "rds_password" : "asdfghjkl",
+  "rds_db": "project",
+  "server_host": "localhost",
+  "server_port":"8080"
+}
