@@ -22,13 +22,15 @@ export const theme = createTheme({
 // We use React Router's BrowserRouter and Routes components to define the pages for
 // our application, with each Route component representing a page and the common
 // NavBar component allowing us to navigate between pages (with hyperlinks)
+
+// edit pages for tabs in component header -- home, community, find, search, profile/login
 export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <BrowserRouter>
         <NavBar />
-        <Routes>
+        <Routes> 
           <Route path="/" element={<HomePage />} />
           <Route path="/albums" element={<AlbumsPage />} />
           <Route path="/albums/:album_id" element={<AlbumInfoPage />} />

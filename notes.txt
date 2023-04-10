@@ -1,0 +1,11 @@
+
+app.js -- make a copy
+    to change new nav bar with our components/pages
+
+change song card to movie page
+
+route pages to our Routes
+
+new search bar component added to navbar (header.js)
+
+change app.js to our pages
