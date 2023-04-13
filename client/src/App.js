@@ -3,6 +3,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material'
 import { indigo, amber } from '@mui/material/colors'
 import { createTheme } from "@mui/material/styles";
 
+import Home from './pages/Home';
 import NavBar from './components/NavBar';
 import HomePage from './pages/HomePage';
 import AlbumsPage from './pages/AlbumsPage';
@@ -30,8 +31,9 @@ export default function App() {
       <CssBaseline />
       <BrowserRouter>
         <NavBar />
+        {/* we can fix up their nav bar here */}
         <Routes> 
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<Home />} />
           <Route path="/albums" element={<AlbumsPage />} />
           <Route path="/albums/:album_id" element={<AlbumInfoPage />} />
           <Route path="/songs" element={<SongsPage />} />
