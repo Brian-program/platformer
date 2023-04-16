@@ -7,11 +7,11 @@ const config = require('../config.json');
 
 export default function Home() {
   // We use the setState hook to persist information across renders (such as the result of our API calls)
-  const [topMovies, setTopMovies] = useState({});
-  const [topNetflix, setTopNetflix] = useState({});
-  const [topHulu, setTopHulu] = useState({});
-  const [topPrimeVideo, setTopPrimeVideo] = useState({});
-  const [topDisneyPlus, setTopDisneyPlus] = useState({});
+  const [topMovies, setTopMovies] = useState([]);
+  const [topNetflix, setTopNetflix] = useState([]);
+  const [topHulu, setTopHulu] = useState([]);
+  const [topPrimeVideo, setTopPrimeVideo] = useState([]);
+  const [topDisneyPlus, setTopDisneyPlus] = useState([]);
 
 
   useEffect(() => {
@@ -20,14 +20,14 @@ export default function Home() {
       .then(resJson => setTopMovies(resJson));
   }, []);
 
-
+  console.log(topMovies);
 
   return (
     <Container>
-      <MovieRow movies={topMovies} />
-      {/* <div>
+      {/* <MovieRow movies={topMovies} /> */}
+      { <div>
         {topMovies.map(movie => (
-          <div>
+          <div style={{ display: 'flex', flexWrap: 'wrap' }}>
             <h3>{movie.titleId}</h3>
             <img src={movie.poster} alt={movie.title} />
             <p>{movie.title}</p>
@@ -35,11 +35,11 @@ export default function Home() {
             <Divider />
           </div>
         ))}
-      </div> */}
-      {/* <MovieRow movies={topNetflix} />
+      </div> }
+      {/* { <MovieRow movies={topNetflix} />
       <MovieRow movies={topHulu} />
       <MovieRow movies={topDisneyPlus} />
-      <MovieRow movies={topPrimeVideo} /> */}
+      <MovieRow movies={topPrimeVideo} /> } */}
     </Container>
   );
 };
