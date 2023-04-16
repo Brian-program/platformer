@@ -18,7 +18,7 @@ const NavText = ({ href, text, isMain }) => {
       <NavLink
         to={href}
         style={{
-          color: 'inherit',
+          color: 'yellow',
           textDecoration: 'none',
         }}
       >
@@ -35,10 +35,15 @@ export default function NavBar() {
   return (
     <AppBar position='static'>
       <Container maxWidth='xl'>
+        <Toolbar disableGutters style={{display: 'flex', justifyContent: 'space-between'}}>
+          <NavText href='/' text='STREAMIFY' isMain />
+          <NavText href='/profile' text='PROFILE' isMain />
+        </Toolbar>
         <Toolbar disableGutters>
-          <NavText href='/' text='SWIFTIFY' isMain />
-          <NavText href='/albums' text='ALBUMS' />
-          <NavText href='/songs' text='SONGS' />
+          <NavText href='/' text='HOME' />
+          <NavText href='/advanced_search' text='ADVANCED SEARCH' />
+          <NavText href='/friendlist' text='COMMUNITY' />
+          <NavText href='/aboutUs' text='ABOUT US' />
         </Toolbar>
       </Container>
     </AppBar>

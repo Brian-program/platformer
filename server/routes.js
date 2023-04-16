@@ -54,7 +54,19 @@ const movie = async function(req, res) {
   const titleId = req.params.titleId;
   connection.query(`
     SELECT *
-    FROM (SELECT * FROM imdb WHERE titleId = '${titleId}') selected_movie 
+    FROM (SELECT * FROM 
+        (SELECT akas.titleId, 
+        akas.title, 
+        ratings.averageRating AS rating,
+        crew.directors, 
+        basics.startYear, 
+        basics.endYear, 
+        basics.runtimeMinutes AS duration, 
+        basics.genres AS genre
+        FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN crew ON akas.titleId = crew.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
+        ) imdb
+      WHERE titleId = '${titleId}'
+      ) selected_movie 
     LEFT JOIN kaggle 
     ON selected_movie.title = kaggle.title
     WHERE titleId = '${titleId}'
@@ -68,8 +80,8 @@ const movie = async function(req, res) {
   });
 }
 
-// GET /profile/:userId (aka followingList)
-const profile = async function(req, res) {
+// GET /friendlist/:userId (aka followingList)
+const friendlist = async function(req, res) {
   const userId = req.params.userId;
   connection.query(`
     SELECT userId, followId
@@ -102,11 +114,21 @@ const watchlist = async function(req, res) {
   });
 }
 
+//add image back into the query
 // GET /top_movies
 const top_movies = async function(req, res) {
   connection.query(`
-    SELECT titleId, title, image
-    FROM imdb
+    SELECT titleId, title
+    FROM (SELECT akas.titleId, 
+      akas.title, 
+      ratings.averageRating AS rating,
+      crew.directors, 
+      basics.startYear, 
+      basics.endYear, 
+      basics.runtimeMinutes AS duration, 
+      basics.genres AS genre
+      FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN crew ON akas.titleId = crew.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
+      ) imdb
     ORDER BY rating DESC
     LIMIT 10
   `, (err, data) => {
@@ -119,12 +141,132 @@ const top_movies = async function(req, res) {
   });
 }
 
-// GET /simple_search
+// GET /top_netflix
+const top_netflix = async function(req, res) {
+  connection.query(`
+    SELECT titleId, title, image
+    FROM (SELECT akas.titleId, 
+      akas.title, 
+      ratings.averageRating AS rating,
+      crew.directors, 
+      basics.startYear, 
+      basics.endYear, 
+      basics.runtimeMinutes AS duration, 
+      basics.genres AS genre
+      FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN crew ON akas.titleId = crew.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
+      ) imdb LEFT JOIN kaggle ON imdb.title = kaggle.title
+    WHERE Netflix = 1
+    ORDER BY RottenTomatoes DESC
+    LIMIT 10
+  `, (err, data) => {
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json([]);
+    } else {
+      res.json(data);
+    }
+  });
+}
+
+// GET /top_hulu
+const top_hulu = async function(req, res) {
+  connection.query(`
+    SELECT titleId, title, image
+    FROM (SELECT akas.titleId, 
+      akas.title, 
+      ratings.averageRating AS rating,
+      crew.directors, 
+      basics.startYear, 
+      basics.endYear, 
+      basics.runtimeMinutes AS duration, 
+      basics.genres AS genre
+      FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN crew ON akas.titleId = crew.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
+      ) imdb 
+    LEFT JOIN kaggle ON imdb.title = kaggle.title
+    WHERE Hulu = 1
+    ORDER BY RottenTomatoes DESC
+    LIMIT 10
+  `, (err, data) => {
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json([]);
+    } else {
+      res.json(data);
+    }
+  });
+}
+
+// GET /top_DisneyPlus
+const top_DisneyPlus = async function(req, res) {
+  connection.query(`
+    SELECT titleId, title, image
+    FROM (SELECT akas.titleId, 
+      akas.title, 
+      ratings.averageRating AS rating,
+      crew.directors, 
+      basics.startYear, 
+      basics.endYear, 
+      basics.runtimeMinutes AS duration, 
+      basics.genres AS genre
+      FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN crew ON akas.titleId = crew.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
+      ) imdb
+    LEFT JOIN kaggle ON imdb.title = kaggle.title
+    WHERE DisneyPlus = 1
+    ORDER BY RottenTomatoes DESC
+    LIMIT 10
+  `, (err, data) => {
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json([]);
+    } else {
+      res.json(data);
+    }
+  });
+}
+
+// GET /top_PrimeVideo
+const top_PrimeVideo = async function(req, res) {
+  connection.query(`
+    SELECT titleId, title, image
+    FROM (SELECT akas.titleId, 
+      akas.title, 
+      ratings.averageRating AS rating,
+      crew.directors, 
+      basics.startYear, 
+      basics.endYear, 
+      basics.runtimeMinutes AS duration, 
+      basics.genres AS genre
+      FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN crew ON akas.titleId = crew.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
+      ) imdb
+    LEFT JOIN kaggle ON imdb.title = kaggle.title
+    WHERE PrimeVideo = 1
+    ORDER BY RottenTomatoes DESC
+    LIMIT 10
+  `, (err, data) => {
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json([]);
+    } else {
+      res.json(data);
+    }
+  });
+}
+
+// GET /simple_search/:title
 const simple_search = async function(req, res) {
   const title = req.params.title;
   connection.query(`
     SELECT titleId, title, image
-    FROM imdb
+    FROM (SELECT akas.titleId, 
+      akas.title, 
+      ratings.averageRating AS rating,
+      crew.directors, 
+      basics.startYear, 
+      basics.endYear, 
+      basics.runtimeMinutes AS duration, 
+      basics.genres AS genre
+      FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN crew ON akas.titleId = crew.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
+      ) imdb
     WHERE title LIKE '${title}'
     LIMIT 5
   `, (err, data) => {
@@ -246,10 +388,8 @@ const top_albums = async function(req, res) {
 }
 
 
-// Route 9: GET /search_albums
+//GET /advanced_search
 const advanced_search = async function(req, res) {
-  // TODO (TASK 12): return all songs that match the given search query with parameters defaulted to those specified in API spec ordered by title (ascending)
-  // Some default parameters have been provided for you, but you will need to fill in the rest
   const title = req.query.title ?? '';
   const durationMin = req.query.durationMin ?? 1;
   const durationMax = req.query.durationMax ?? 1320;
@@ -267,7 +407,17 @@ const advanced_search = async function(req, res) {
 
   connection.query(`
   SELECT *
-  FROM imdb LEFT JOIN kaggle ON imdb.title = kaggle.title
+  FROM (SELECT akas.titleId, 
+    akas.title, 
+    ratings.averageRating AS rating,
+    crew.directors, 
+    basics.startYear, 
+    basics.endYear, 
+    basics.runtimeMinutes AS duration, 
+    basics.genres AS genre
+    FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN crew ON akas.titleId = crew.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
+    ) imdb
+  LEFT JOIN kaggle ON imdb.title = kaggle.title
   WHERE title LIKE '%${title}%' AND
   ratings >= ${ratingMin} AND ratings <= ${ratingMax} AND
   startYear >= ${yearMin} AND start <= ${yearMax} AND
@@ -291,6 +441,45 @@ const advanced_search = async function(req, res) {
 }
 
 
+
+// GET /all_users/:userId
+const all_users = async function(req, res) {
+
+  //returns a list of userIds from searching for a specific username
+  const userId = req.params.userId;
+  connection.query(`
+    SELECT userId
+    FROM users
+    WHERE users.userId LIKE '%${userId}%'
+  `, (err, data) => {
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json({});
+    } else {
+      res.json(data[0]);
+    }
+  });
+}
+
+// GET /user_login/:userId
+const user_login = async function(req, res) {
+
+  //returns a password for a specific userId
+  const userId = req.params.userId;
+  connection.query(`
+    SELECT password
+    FROM users
+    WHERE userId = ${userId}
+  `, (err, data) => {
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json({});
+    } else {
+      res.json(data[0]);
+    }
+  });
+}
+
 module.exports = {
   // author,
   // random,
@@ -303,9 +492,15 @@ module.exports = {
   // search_songs,
   movie,
   watchlist,
-  profile,
+  friendlist,
   top_movies,
   simple_search,
   // following_top_movies, do this in the future
-  advanced_search
+  top_DisneyPlus,
+  top_PrimeVideo,
+  top_netflix,
+  top_hulu,
+  advanced_search,
+  all_users,
+  user_login
 }

@@ -2,33 +2,44 @@ import { useEffect, useState } from 'react';
 import { Container, Divider, Link } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
-import LazyTable from '../components/LazyTable';
-import SongCard from '../components/SongCard';
-import Header from '../components/Header';
+import MovieRow from '../components/MovieRow';
 const config = require('../config.json');
 
 export default function Home() {
   // We use the setState hook to persist information across renders (such as the result of our API calls)
   const [topMovies, setTopMovies] = useState({});
+  const [topNetflix, setTopNetflix] = useState({});
+  const [topHulu, setTopHulu] = useState({});
+  const [topPrimeVideo, setTopPrimeVideo] = useState({});
+  const [topDisneyPlus, setTopDisneyPlus] = useState({});
 
-  // The useEffect hook by default runs the provided callback after every render
-  // The second (optional) argument, [], is the dependency array which signals
-  // to the hook to only run the provided callback if the value of the dependency array
-  // changes from the previous render. In this case, an empty array means the callback
-  // will only run on the very first render.
+
   useEffect(() => {
-    // Fetch request to get the song of the day. Fetch runs asynchronously.
-    // The .then() method is called when the fetch request is complete
-    // and proceeds to convert the result to a JSON which is finally placed in state.
-    fetch(`http://${config.server_host}:${config.server_port}/`)
+    fetch(`http://${config.server_host}:${config.server_port}/top_movies`)
       .then(res => res.json())
       .then(resJson => setTopMovies(resJson));
-
   }, []);
+
+
 
   return (
     <Container>
-      <Header></Header>
+      <MovieRow movies={topMovies} />
+      {/* <div>
+        {topMovies.map(movie => (
+          <div>
+            <h3>{movie.titleId}</h3>
+            <img src={movie.poster} alt={movie.title} />
+            <p>{movie.title}</p>
+            <Link component={NavLink} to={`/movies/${movie.id}`}>More Info</Link>
+            <Divider />
+          </div>
+        ))}
+      </div> */}
+      {/* <MovieRow movies={topNetflix} />
+      <MovieRow movies={topHulu} />
+      <MovieRow movies={topDisneyPlus} />
+      <MovieRow movies={topPrimeVideo} /> */}
     </Container>
   );
 };
