@@ -18,28 +18,27 @@ export default function Home() {
     fetch(`http://${config.server_host}:${config.server_port}/top_movies`)
       .then(res => res.json())
       .then(resJson => setTopMovies(resJson));
+    fetch(`http://${config.server_host}:${config.server_port}/top_DisneyPlus`)
+      .then(res => res.json())
+      .then(resJson => setTopDisneyPlus(resJson));
+    fetch(`http://${config.server_host}:${config.server_port}/top_PrimeVideo`)
+      .then(res => res.json())
+      .then(resJson => setTopPrimeVideo(resJson));
+    fetch(`http://${config.server_host}:${config.server_port}/top_hulu`)
+      .then(res => res.json())
+      .then(resJson => setTopHulu(resJson));
+    fetch(`http://${config.server_host}:${config.server_port}/top_netflix`)
+      .then(res => res.json())
+      .then(resJson => setTopNetflix(resJson));
   }, []);
-
-  console.log(topMovies);
 
   return (
     <Container>
-      {/* <MovieRow movies={topMovies} /> */}
-      { <div>
-        {topMovies.map(movie => (
-          <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-            <h3>{movie.titleId}</h3>
-            <img src={movie.poster} alt={movie.title} />
-            <p>{movie.title}</p>
-            <Link component={NavLink} to={`/movies/${movie.id}`}>More Info</Link>
-            <Divider />
-          </div>
-        ))}
-      </div> }
-      {/* { <MovieRow movies={topNetflix} />
+      <MovieRow movies={topMovies} />
+      <MovieRow movies={topNetflix} />
       <MovieRow movies={topHulu} />
       <MovieRow movies={topDisneyPlus} />
-      <MovieRow movies={topPrimeVideo} /> } */}
+      <MovieRow movies={topPrimeVideo} />
     </Container>
   );
 };

@@ -1,17 +1,19 @@
 import React from 'react';
+import { Container, Divider, Link } from '@mui/material';
+import { NavLink } from 'react-router-dom';
 
 const MovieRow = ({ movies }) => {
   return (
-    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-      {/* {movies.map((movie) => (
-        <div key={movie.id} style={{ width: '10%', padding: '5px' }}>
-          <img
-            src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-            style={{ width: '100%', height: 'auto' }}
-          />
-          <p style={{ textAlign: 'center', marginTop: '5px' }}>{movie.title}</p>
+    <div>
+      {movies.map(movie => (
+        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+          <h3>{movie.titleId}</h3>
+          <img src={movie.poster} alt={movie.title} />
+          <p>{movie.title}</p>
+          <Link component={NavLink} to={`/movies/${movie.id}`}>More Info</Link>
+          <Divider />
         </div>
-      ))} */}
+      ))}
     </div>
   );
 };

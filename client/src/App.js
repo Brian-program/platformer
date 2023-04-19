@@ -30,9 +30,9 @@ export default function App() {
       <CssBaseline />
       <BrowserRouter>
         <NavBar />
-        {/* we can fix up their nav bar here */}
         <Routes> 
           <Route path="/" element={<Home />} />
+          {/* <Route path="/movies/:movie_id" element={<MoviePage />} /> */}
           <Route path="/albums" element={<AlbumsPage />} />
           <Route path="/albums/:album_id" element={<AlbumInfoPage />} />
           <Route path="/songs" element={<SongsPage />} />
