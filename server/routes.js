@@ -2,7 +2,6 @@ const mysql = require('mysql')
 const config = require('./config.json')
 
 // Creates MySQL connection using database credential provided in config.json
-// Do not edit. If the connection fails, make sure to check that config.json is filled out correctly
 const connection = mysql.createConnection({
   host: config.rds_host,
   user: config.rds_user,
@@ -118,7 +117,7 @@ const watchlist = async function(req, res) {
 // GET /top_movies
 const top_movies = async function(req, res) {
   connection.query(`
-    SELECT titleId, title
+    SELECT DISTINCT titleId, title
     FROM (SELECT akas.titleId, 
       akas.title, 
       ratings.averageRating AS rating,
@@ -144,7 +143,7 @@ const top_movies = async function(req, res) {
 // GET /top_netflix
 const top_netflix = async function(req, res) {
   connection.query(`
-    SELECT titleId, title, image
+  SELECT DISTINCT titleId, imdb.title
     FROM (SELECT akas.titleId, 
       akas.title, 
       ratings.averageRating AS rating,
@@ -171,7 +170,7 @@ const top_netflix = async function(req, res) {
 // GET /top_hulu
 const top_hulu = async function(req, res) {
   connection.query(`
-    SELECT titleId, title, image
+  SELECT DISTINCT titleId, imdb.title
     FROM (SELECT akas.titleId, 
       akas.title, 
       ratings.averageRating AS rating,
@@ -199,7 +198,7 @@ const top_hulu = async function(req, res) {
 // GET /top_DisneyPlus
 const top_DisneyPlus = async function(req, res) {
   connection.query(`
-    SELECT titleId, title, image
+  SELECT DISTINCT titleId, imdb.title
     FROM (SELECT akas.titleId, 
       akas.title, 
       ratings.averageRating AS rating,
@@ -227,7 +226,7 @@ const top_DisneyPlus = async function(req, res) {
 // GET /top_PrimeVideo
 const top_PrimeVideo = async function(req, res) {
   connection.query(`
-    SELECT titleId, title, image
+    SELECT DISTINCT titleId, imdb.title
     FROM (SELECT akas.titleId, 
       akas.title, 
       ratings.averageRating AS rating,
@@ -256,7 +255,7 @@ const top_PrimeVideo = async function(req, res) {
 const simple_search = async function(req, res) {
   const title = req.params.title;
   connection.query(`
-    SELECT titleId, title, image
+    SELECT DISTINCT titleId, imdb.title
     FROM (SELECT akas.titleId, 
       akas.title, 
       ratings.averageRating AS rating,
@@ -277,114 +276,6 @@ const simple_search = async function(req, res) {
       res.json(data);
     }
   });
-}
-
-/************************
- * ADVANCED INFO ROUTES *
- ************************/
-
-// Route 7: GET /top_songs GETT RID OFFOFOFOFO
-const top_songs = async function(req, res) {
-  const page = req.query.page;
-  // TODO (TASK 8): use the ternary (or nullish) operator to set the pageSize based on the query or default to 10
-  const pageSize = req.query.page_size ?? 25;
-
-  if (!page) {
-    // TODO (TASK 9)): query the database and return all songs ordered by number of plays (descending)
-    // Hint: you will need to use a JOIN to get the album title as well
-    connection.query(`
-      SELECT S.song_id, S.title, S.plays, A.title AS album, A.album_id
-      FROM Songs S
-      JOIN Albums A
-      ON A.album_id = S.album_id
-      ORDER BY plays DESC
-    `, (err, data) => {
-      if (err || data.length === 0) {
-        console.log(err);
-        res.json([]);
-      } else {
-        res.json(data);
-      }
-    });
-  } else {
-    // TODO (TASK 10): reimplement TASK 9 with pagination
-    connection.query(`
-      SELECT S.song_id, S.title, S.plays, A.title AS album, A.album_id
-      FROM Songs S
-      JOIN Albums A
-      ON A.album_id = S.album_id
-      ORDER BY S.plays DESC
-      LIMIT ${(page-1)*pageSize}, ${pageSize}
-    `, (err, data) => {
-      if (err || data.length === 0) {
-        console.log(err);
-        res.json([]);
-      } else {
-        res.json(data);
-      }
-    });
-    // Hint: use LIMIT and OFFSET (see https://www.w3schools.com/php/php_mysql_select_limit.asp)
-  }
-}
-
-// Route 8: GET /top_albums GETTT RIIIID OFOOFOFOFO
-const top_albums = async function(req, res) {
-  // TODO (TASK 11): return the top albums ordered by aggregate number of plays of all songs on the album (descending), with optional pagination (as in route 7)
-  // Hint: you will need to use a JOIN and aggregation to get the total plays of songs in an album
-  const page = req.query.page;
-  // TODO (TASK 8): use the ternary (or nullish) operator to set the pageSize based on the query or default to 10
-  const pageSize = req.query.page_size ?? 10;
-
-  if (!page) {
-    // TODO (TASK 9)): query the database and return all songs ordered by number of plays (descending)
-    // Hint: you will need to use a JOIN to get the album title as well
-    connection.query(`
-      WITH sum_plays AS (
-        SELECT A.album_id AS album_id, SUM(S.plays) AS plays
-        FROM Songs S
-        JOIN Albums A
-        ON A.album_id = S.album_id
-        GROUP BY A.album_id
-      )
-      SELECT A.title, S.plays, A.album_id
-      FROM sum_plays S
-      JOIN Albums A
-      ON A.album_id = S.album_id
-      ORDER BY S.plays DESC
-    `, (err, data) => {
-      if (err || data.length === 0) {
-        console.log(err);
-        res.json([]);
-      } else {
-        res.json(data);
-      }
-    });
-  } else {
-    // TODO (TASK 10): reimplement TASK 9 with pagination
-    connection.query(`
-    WITH sum_plays AS (
-      SELECT A.album_id AS album_id, SUM(S.plays) AS plays
-      FROM Songs S
-      JOIN Albums A
-      ON A.album_id = S.album_id
-      GROUP BY A.album_id
-    )
-    SELECT A.title, S.plays, A.album_id
-    FROM sum_plays S
-    JOIN Albums A
-    ON A.album_id = S.album_id
-    ORDER BY S.plays DESC
-    LIMIT ${(page-1)*pageSize}, ${pageSize}
-  `, (err, data) => {
-    if (err || data.length === 0) {
-      console.log(err);
-      res.json([]);
-    } else {
-      res.json(data);
-    }
-  });
-    // Hint: use LIMIT and OFFSET (see https://www.w3schools.com/php/php_mysql_select_limit.asp)
-  }
 }
 
 
@@ -481,21 +372,12 @@ const user_login = async function(req, res) {
 }
 
 module.exports = {
-  // author,
   // random,
-  // song,
-  // album,
-  // albums,
-  // album_songs,
-  // top_songs,
-  // top_albums,
-  // search_songs,
   movie,
   watchlist,
   friendlist,
   top_movies,
   simple_search,
-  // following_top_movies, do this in the future
   top_DisneyPlus,
   top_PrimeVideo,
   top_netflix,

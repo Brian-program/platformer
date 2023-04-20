@@ -32,6 +32,8 @@ export default function Home() {
       .then(resJson => setTopNetflix(resJson));
   }, []);
 
+
+  //ADD HEADERS FOR EACH OF THESE
   return (
     <Container>
       <MovieRow movies={topMovies} />
