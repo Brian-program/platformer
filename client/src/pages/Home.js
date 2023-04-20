@@ -36,10 +36,29 @@ export default function Home() {
   //ADD HEADERS FOR EACH OF THESE
   return (
     <Container>
+      <div style={{fontSize: '32px', fontWeight:'bold', marginBottom:'10px', textAlign:'left' }}>
+        TOP RATED
+      </div>
       <MovieRow movies={topMovies} />
+
+      <div style={{fontSize: '32px', fontWeight:'bold', marginBottom:'10px', textAlign:'left' }}>
+        TOP ON NETFLIX
+      </div>
       <MovieRow movies={topNetflix} />
+
+      <div style={{fontSize: '32px', fontWeight:'bold', marginBottom:'10px', textAlign:'left' }}>
+        TOP ON HULU
+      </div>
       <MovieRow movies={topHulu} />
+
+      <div style={{fontSize: '32px', fontWeight:'bold', marginBottom:'10px', textAlign:'left' }}>
+        TOP ON DISNEY+
+      </div>
       <MovieRow movies={topDisneyPlus} />
+
+      <div style={{fontSize: '32px', fontWeight:'bold', marginBottom:'10px', textAlign:'left' }}>
+        TOP ON PRIME VIDEO
+      </div>
       <MovieRow movies={topPrimeVideo} />
     </Container>
   );

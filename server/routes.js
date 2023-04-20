@@ -100,9 +100,9 @@ const friendlist = async function(req, res) {
 const watchlist = async function(req, res) {
   const userId = req.params.userId;
   connection.query(`
-    SELECT *
-    FROM watchlist
-    WHERE userId = '${userId}'
+    SELECT DISTINCT userId, akas.titleId, akas.title
+    FROM (SELECT * FROM watchlist WHERE userId = '${userId}') list
+    JOIN akas ON list.titleId = akas.titleId
   `, (err, data) => {
     if (err || data.length === 0) {
       console.log(err);

@@ -11,7 +11,11 @@ const MovieRow = ({ movies }) => {
           src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
           style={{ width: '100%', height: 'auto' }}
         />
-        <p style={{ textAlign: 'center', marginTop: '5px' }}>{movie.title}</p>
+        <div style={{ textAlign: 'center', marginTop: '5px' }}>
+          <Link component={NavLink} to={`/movies/${movie.titleId}`} style={{ textDecoration: 'none', color: 'blue' }}>
+            {movie.title}
+          </Link>
+        </div>
       </div>
     ))}
   </div>
