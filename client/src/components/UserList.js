@@ -1,8 +1,6 @@
 import React from 'react';
-import { Link, Box } from '@mui/material';
+import { Link, Box, List, ListItem, ListItemButton } from '@mui/material';
 import { NavLink } from 'react-router-dom';
-
-import { TableCell, TableContainer, Table, TableBody, TableRow } from '@mui/material';
 
 export default function UserList({ userData }) {
   if (!userData) {
@@ -11,21 +9,15 @@ export default function UserList({ userData }) {
 
   return (
     <Box>
-      <TableContainer>
-        <Table>
-          <TableBody>
-            {userData.map((friend) => (
-              <TableRow key={friend.followId}>
-                <TableCell>
-                  <Link component={NavLink} to={`/watchlist/${friend.followId}`} style={{ textDecoration: 'none', color: 'blue' }}>
-                    {friend.followId}
-                  </Link>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <List style={{ padding: 0 }}>
+        {userData.map((friend) => (
+          <ListItem key={friend.followId} style={{ padding: '4px 0' }}>
+            <ListItemButton component={NavLink} to={`/watchlist/${friend.followId}`} style={{ textDecoration: 'none', color: 'blue' }}>
+              <Link>{friend.followId}</Link>
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
     </Box>
   );
 }

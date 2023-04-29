@@ -22,7 +22,8 @@ app.get('/top_DisneyPlus', routes.top_DisneyPlus);
 app.get('/top_PrimeVideo', routes.top_PrimeVideo);
 app.get('/top_netflix', routes.top_netflix);
 app.get('/top_hulu', routes.top_hulu);
-app.get('/all_users/:userId', routes.all_users);
+app.get('/search_user/:userId', routes.search_user);
+app.get('/all_users', routes.all_users);
 app.get('/user_login/:userId', routes.user_login);
 
 

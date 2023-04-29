@@ -334,9 +334,25 @@ const advanced_search = async function(req, res) {
 }
 
 
-
-// GET /all_users/:userId
+// GET /all_users
 const all_users = async function(req, res) {
+  //returns a list of userIds from searching for a specific username
+  connection.query(`
+    SELECT userId
+    FROM users
+  `, (err, data) => {
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json({});
+    } else {
+      res.json(data);
+    }
+  });
+}
+
+
+// GET /search_user/:userId
+const search_user = async function(req, res) {
 
   //returns a list of userIds from searching for a specific username
   const userId = req.params.userId;
@@ -386,5 +402,6 @@ module.exports = {
   top_hulu,
   advanced_search,
   all_users,
+  search_user,
   user_login
 }
