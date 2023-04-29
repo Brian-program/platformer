@@ -6,10 +6,12 @@ import { createTheme } from "@mui/material/styles";
 import Home from './pages/Home';
 import NavBar from './components/NavBar';
 import Profile from './pages/Profile';
-import AlbumsPage from './pages/AlbumsPage';
+//import AlbumsPage from './pages/AlbumsPage';
+import MoviePage  from './pages/MoviePage';
 import SongsPage from './pages/SongsPage';
 import AlbumInfoPage from './pages/AlbumInfoPage'
 import AdvancedSearch from './pages/AdvancedSearch'
+import CommunityPage from "./pages/CommunityPage";
 
 // createTheme enables you to customize the look and feel of your app past the default
 // in this case, we only change the color scheme
@@ -27,6 +29,9 @@ export const theme = createTheme({
 
 // edit pages for tabs in component header -- home, community, find, search, profile/login
 export default function App() {
+
+  const user_id = "brilu100";
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -34,11 +39,12 @@ export default function App() {
         <NavBar />
         <Routes> 
           <Route path="/" element={<Home/>} />
-          {/* <Route path="/movies/:movie_id" element={<MoviePage />} /> */}
-          <Route path="/profile" element={<Profile/>} />
+          <Route path="/movies/:movieId" element={<MoviePage />} />
+          <Route path="/profile" element={<Profile user_id={user_id}/>} />
+          <Route path="/profile/:searchId" element={<Profile user_id={user_id}/>} />
           <Route path="/albums/:album_id" element={<AlbumInfoPage />} />
-          <Route path="/songs" element={<SongsPage />} />
           <Route path="/advanced_search/" element={<AdvancedSearch/>} />
+          <Route path="/friendlist" element={<CommunityPage />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

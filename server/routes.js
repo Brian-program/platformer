@@ -47,28 +47,28 @@ const random = async function(req, res) {
 }
 
 // GET /movie/:title_id
-const movie = async function(req, res) {
+const movies = async function(req, res) {
 
   //returns all info about imdb movie including streaming service if it exists
   const titleId = req.params.titleId;
   connection.query(`
-    SELECT *
-    FROM (SELECT * FROM 
-        (SELECT akas.titleId, 
-        akas.title, 
-        ratings.averageRating AS rating,
-        crew.directors, 
-        basics.startYear, 
-        basics.endYear, 
-        basics.runtimeMinutes AS duration, 
-        basics.genres AS genre
-        FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN crew ON akas.titleId = crew.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
-        ) imdb
+  SELECT *
+      FROM (SELECT * FROM 
+          (SELECT akas.titleId, 
+          akas.title, 
+          ratings.averageRating AS rating,
+          crew.directors, 
+          basics.startYear, 
+          basics.endYear, 
+          basics.runtimeMinutes AS duration, 
+          basics.genres AS genre
+          FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN crew ON akas.titleId = crew.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
+          ) imdb
+        WHERE titleId = '${titleId}'
+        ) selected_movie 
+      LEFT JOIN kaggle 
+      ON selected_movie.title = kaggle.title
       WHERE titleId = '${titleId}'
-      ) selected_movie 
-    LEFT JOIN kaggle 
-    ON selected_movie.title = kaggle.title
-    WHERE titleId = '${titleId}'
   `, (err, data) => {
     if (err || data.length === 0) {
       console.log(err);
@@ -79,11 +79,12 @@ const movie = async function(req, res) {
   });
 }
 
+
 // GET /friendlist/:userId (aka followingList)
 const friendlist = async function(req, res) {
   const userId = req.params.userId;
   connection.query(`
-    SELECT userId, followId
+    SELECT DISTINCT userId, followId
     FROM followings
     WHERE userId = '${userId}'
   `, (err, data) => {
@@ -163,6 +164,7 @@ const top_netflix = async function(req, res) {
       res.json([]);
     } else {
       res.json(data);
+      //console.log("hajkdkhkjio");
     }
   });
 }
@@ -347,7 +349,7 @@ const all_users = async function(req, res) {
       console.log(err);
       res.json({});
     } else {
-      res.json(data[0]);
+      res.json(data);
     }
   });
 }
@@ -373,7 +375,7 @@ const user_login = async function(req, res) {
 
 module.exports = {
   // random,
-  movie,
+  movies,
   watchlist,
   friendlist,
   top_movies,
