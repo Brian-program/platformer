@@ -83,7 +83,7 @@ const movie = async function(req, res) {
 const friendlist = async function(req, res) {
   const userId = req.params.userId;
   connection.query(`
-    SELECT userId, followId
+    SELECT DISTINCT userId, followId
     FROM followings
     WHERE userId = '${userId}'
   `, (err, data) => {
@@ -91,7 +91,7 @@ const friendlist = async function(req, res) {
       console.log(err);
       res.json({});
     } else {
-      res.json(data[0]);
+      res.json(data);
     }
   });
 }
@@ -347,7 +347,7 @@ const all_users = async function(req, res) {
       console.log(err);
       res.json({});
     } else {
-      res.json(data[0]);
+      res.json(data);
     }
   });
 }
