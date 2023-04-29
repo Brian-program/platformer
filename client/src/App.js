@@ -10,6 +10,7 @@ import Profile from './pages/Profile';
 import MoviePage  from './pages/MoviePage';
 import SongsPage from './pages/SongsPage';
 import AlbumInfoPage from './pages/AlbumInfoPage'
+import CommunityPage from "./pages/CommunityPage";
 
 // createTheme enables you to customize the look and feel of your app past the default
 // in this case, we only change the color scheme
@@ -41,7 +42,7 @@ export default function App() {
           <Route path="/profile" element={<Profile user_id={user_id}/>} />
           <Route path="/profile/:searchId" element={<Profile user_id={user_id}/>} />
           <Route path="/albums/:album_id" element={<AlbumInfoPage />} />
-          <Route path="/songs" element={<SongsPage />} />
+          <Route path="/friendlist" element={<CommunityPage />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
