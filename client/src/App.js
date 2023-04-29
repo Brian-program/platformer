@@ -9,6 +9,7 @@ import Profile from './pages/Profile';
 import AlbumsPage from './pages/AlbumsPage';
 import SongsPage from './pages/SongsPage';
 import AlbumInfoPage from './pages/AlbumInfoPage'
+import AdvancedSearch from './pages/AdvancedSearch'
 
 // createTheme enables you to customize the look and feel of your app past the default
 // in this case, we only change the color scheme
@@ -37,6 +38,7 @@ export default function App() {
           <Route path="/profile" element={<Profile/>} />
           <Route path="/albums/:album_id" element={<AlbumInfoPage />} />
           <Route path="/songs" element={<SongsPage />} />
+          <Route path="/advanced_search/" element={<AdvancedSearch/>} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
