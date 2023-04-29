@@ -27,6 +27,9 @@ export const theme = createTheme({
 
 // edit pages for tabs in component header -- home, community, find, search, profile/login
 export default function App() {
+
+  const user_id = "brilu100";
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -34,8 +37,9 @@ export default function App() {
         <NavBar />
         <Routes> 
           <Route path="/" element={<Home/>} />
-           <Route path="/movies/:movieId" element={<MoviePage />} />
-          <Route path="/profile" element={<Profile/>} />
+          <Route path="/movies/:movieId" element={<MoviePage />} />
+          <Route path="/profile" element={<Profile user_id={user_id}/>} />
+          <Route path="/profile/:searchId" element={<Profile user_id={user_id}/>} />
           <Route path="/albums/:album_id" element={<AlbumInfoPage />} />
           <Route path="/songs" element={<SongsPage />} />
         </Routes>
