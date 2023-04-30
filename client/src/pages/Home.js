@@ -36,13 +36,9 @@ export default function Home() {
 
   return (
     <Container>
-      <Card sx={{backgroundColor: theme.palette.secondary.main,
-    '&:hover': {
-      backgroundColor: theme.palette.tertiary.main,
-      cursor: 'pointer',
-    },}}>
+            <Card sx={{backgroundColor: theme.palette.secondary.main, width: '100%'}}>
         <CardContent>
-          <Box sx={{ padding: 1}}>
+          <Box sx={{ padding: 1, }}>
             <Typography variant="h2" sx={{ fontWeight: 500, fontSize: '36px', textAlign: 'left', marginLeft: '10px', marginBottom: '6px'}}>
               TOP RATED
             </Typography>
@@ -54,11 +50,7 @@ export default function Home() {
         
       </Typography>
 
-      <Card sx={{backgroundColor: theme.palette.secondary.main,
-    '&:hover': {
-      backgroundColor: theme.palette.tertiary.main,
-      cursor: 'pointer',
-    },}}>
+      <Card sx={{backgroundColor: theme.palette.secondary.main}}>
         <CardContent>
           <Box sx={{ padding: 1}}>
             <Typography variant="h2" sx={{ fontWeight: 500, fontSize: '36px', textAlign: 'left', marginLeft: '10px', marginBottom: '6px'}}>
@@ -72,11 +64,7 @@ export default function Home() {
         
       </Typography>
 
-      <Card sx={{backgroundColor: theme.palette.secondary.main,
-    '&:hover': {
-      backgroundColor: theme.palette.tertiary.main,
-      cursor: 'pointer',
-    },}}>
+      <Card sx={{backgroundColor: theme.palette.secondary.main}}>
         <CardContent>
           <Box sx={{ padding: 1}}>
             <Typography variant="h2" sx={{ fontWeight: 500, fontSize: '36px', textAlign: 'left', marginLeft: '10px', marginBottom: '6px'}}>
@@ -90,11 +78,7 @@ export default function Home() {
         
       </Typography>
 
-      <Card sx={{backgroundColor: theme.palette.secondary.main,
-    '&:hover': {
-      backgroundColor: theme.palette.tertiary.main,
-      cursor: 'pointer',
-    },}}>
+      <Card sx={{backgroundColor: theme.palette.secondary.main}}>
         <CardContent>
           <Box sx={{ padding: 1}}>
             <Typography variant="h2" sx={{ fontWeight: 500, fontSize: '36px', textAlign: 'left', marginLeft: '10px', marginBottom: '6px'}}>
@@ -108,12 +92,8 @@ export default function Home() {
         
       </Typography>
 
-      <Card sx={{backgroundColor: theme.palette.secondary.main,
-    '&:hover': {
-      backgroundColor: theme.palette.tertiary.main,
-      cursor: 'pointer',
-    },}}>
-        <CardContent>
+      <Card sx={{backgroundColor: theme.palette.secondary.main}}>
+        <CardContent >
           <Box sx={{ padding: 1}}>
             <Typography variant="h2" sx={{ fontWeight: 500, fontSize: '36px', textAlign: 'left', marginLeft: '10px', marginBottom: '6px'}}>
               TOP ON PRIME VIDEO

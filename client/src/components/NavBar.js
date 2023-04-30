@@ -35,6 +35,7 @@ const NavText = ({ href, text }) => {
       to={href}
       variant="contained"
       sx={{
+        textAlign: "center",
         marginRight: '30px',
         fontFamily: theme.typography.h2,
         fontWeight: 500,
