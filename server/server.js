@@ -26,6 +26,10 @@ app.get('/search_user/:userId', routes.search_user);
 app.get('/all_users', routes.all_users);
 app.get('/user_login/:username', routes.user_login);
 
+//post methods
+app.post('/add_friendlist', routes.add_friendlist);
+
+
 
 app.listen(config.server_port, () => {
   console.log(`Server running at http://${config.server_host}:${config.server_port}/`)

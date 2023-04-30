@@ -16,8 +16,9 @@ export default function Profile(props) {
 
     const [watchlistData, setWatchlistData] = useState([]);
 
+    const [friend, setFriend] = useState([]);
+
     console.log(userId);
-    // console.log(searchId);
 
     //returns true is searchId is not null
     function isSearchIdNotNull(searchId) {
@@ -28,11 +29,22 @@ export default function Profile(props) {
       return userId !== "";
     }
 
+    function isNotFriends(friend) {
+      return friend.length === 0;
+    }
+
+    console.log("friend: ", friend);
+
     useEffect(() => {
       if(isSearchIdNotNull(searchId)) {
         fetch(`http://${config.server_host}:${config.server_port}/watchlist/${searchId}`)
           .then(res => res.json())
           .then(resJson => setWatchlistData(resJson));
+          if(isLoggedIn(userId)) {
+            fetch(`http://${config.server_host}:${config.server_port}/getFriend/${userId}/${searchId}`)
+            .then(res => res.json())
+            .then(resJson => setFriend(Array.isArray(resJson) ? resJson : []));
+          }
       } else {
         fetch(`http://${config.server_host}:${config.server_port}/watchlist/${userId}`)
           .then(res => res.json())
@@ -45,19 +57,21 @@ export default function Profile(props) {
     }
 
     function addToFollowings(userId, followId) {
-      fetch('/api/followings', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          userId: userId,
-          followId: followId
+      if(isNotFriends(friend)) {
+        fetch(`http://${config.server_host}:${config.server_port}/add_friendlist`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            userId: userId,
+            followId: followId
+          })
         })
-      })
-      .then(response => response.json())
-      .then(data => console.log(data))
-      .catch(error => console.error(error));
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error(error));
+      }
     }    
 
     
@@ -76,9 +90,6 @@ export default function Profile(props) {
       .then(data => console.log(data))
       .catch(error => console.error(error));
     }
-    
-
-    // console.log(watchlistData);
 
     return (
       <Container>
@@ -89,7 +100,7 @@ export default function Profile(props) {
         {
           (isSearchIdNotNull(searchId) && isLoggedIn(userId)) ? (
           <div style={{ display: "flex" }}>
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" onClick={() => addToFollowings(userId, searchId)}>
             Add To Friends List
           </Button>
           <Button variant="contained" color="secondary">

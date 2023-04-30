@@ -9,12 +9,9 @@ const Login = ({ user_id, setUser_id }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState([]);
     const [actualLogin, setActualLogin] = useState([]);
+    const [status, setStatus] = useState("");
 
     const navigate = useNavigate();
-
-    console.log(user_id);
-
-    const [status, setStatus] = useState(""); //words that contains if status is null or not
 
     const isCorrectLogin = (username, password) => {
         fetch(`http://${config.server_host}:${config.server_port}/user_login/${username}`)
@@ -23,7 +20,7 @@ const Login = ({ user_id, setUser_id }) => {
             setActualLogin(resJson);
             console.log(actualLogin);
             if (isActualLoginEmpty()) {
-                setStatus("Invalid Username or Password");
+                setStatus("Invalid Username or Password or Please Try AGAIN");
             } else if (isLoginValid()) {
                 setStatus("");
                 setUser_id(username);

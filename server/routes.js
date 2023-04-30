@@ -97,6 +97,23 @@ const friendlist = async function(req, res) {
   });
 }
 
+const getFriend = async function(req, res) {
+  const userId = req.params.userId;
+  const followId = req.params.followId;
+  connection.query(`
+    SELECT followId
+    FROM followings
+    WHERE userId = '${userId}' AND followId = '${followId}'
+  `, (err, data) => {
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json({});
+    } else {
+      res.json(data);
+    }
+  });
+}
+
 // GET /watchlist/:userId
 const watchlist = async function(req, res) {
   const userId = req.params.userId;
@@ -389,10 +406,33 @@ const user_login = async function(req, res) {
   });
 }
 
+// POST
+const add_friendlist = async function(req, res) {
+  let body = '';
+  req.on('data', chunk => {
+    body += chunk.toString();
+  });
+  req.on('end', () => {
+    const { userId, followId } = JSON.parse(body);
+    connection.query(`
+      INSERT INTO followings (userId, followId)
+      VALUES ('${userId}', '${followId}')
+    `, (err, data) => {
+      if (err) {
+        console.log(err);
+        res.json({ success: false });
+      } else {
+        res.json({ success: true });
+      }
+    });
+  });
+}
+
 module.exports = {
   // random,
   movies,
   watchlist,
+  getFriend,
   friendlist,
   top_movies,
   simple_search,
@@ -403,5 +443,7 @@ module.exports = {
   advanced_search,
   all_users,
   search_user,
-  user_login
+  user_login,
+
+  add_friendlist
 }
