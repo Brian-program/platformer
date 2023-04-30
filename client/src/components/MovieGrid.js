@@ -1,10 +1,29 @@
 import { Grid, Card, CardMedia, CardContent, Typography } from '@mui/material';
 import { Container, Divider, Link } from '@mui/material';
 import { NavLink } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
-export default function MovieGrid({moviesData}) {
+const API_KEY = 'd2e25fe6';
 
-  console.log(moviesData);
+export default function MovieGrid({moviesData, movieId}) {
+
+  const [posterUrls, setPosterUrls] = useState({});
+  
+  useEffect(() => {
+    async function fetchData() {
+      const urls = await Promise.all(moviesData.map(async (movie) => {
+        const response = await fetch(`http://www.omdbapi.com/?i=${movie.titleId}&apikey=${API_KEY}`);
+        const data = await response.json();
+        return data.Poster;
+      }));
+      const newPosterUrls = {};
+      for (let i = 0; i < moviesData.length; i++) {
+        newPosterUrls[moviesData[i].titleId] = urls[i];
+      }
+      setPosterUrls(newPosterUrls);
+    }
+    fetchData();
+  }, [moviesData]);
 
   return (
     <Grid container spacing={3}>
@@ -13,7 +32,7 @@ export default function MovieGrid({moviesData}) {
           <Card>
             <CardMedia
               component="img"
-              image={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+              image={posterUrls[movie.titleId]}
               style={{ width: '100%', height: 'auto' }}
             />
 
