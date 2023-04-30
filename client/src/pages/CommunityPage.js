@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Container } from "@mui/system";
-import { Divider, Link, Box, TextField, OutlinedInput } from '@mui/material';
+import { Divider, Card, CardContent, TextField, Typography } from '@mui/material';
+import theme from '../theme';
+
 
 import UserList from "../components/UserList";
 import FriendsList from "../components/FriendsList";
@@ -8,9 +10,9 @@ import FriendsList from "../components/FriendsList";
 const config = require('../config.json');
 
 export default function CommunityPage(props) {
-		const [userId, setUserId]  = useState(props.user_id);
-		// const userId = "iamandal";
-		console.log(props.user_id);
+    const [userId, setUserId]  = useState(props.user_id);
+    // const userId = "iamandal";
+    console.log(props.user_id);
     const [friendData, setFriendData] = useState([]);
     const [searchUser, setSearchUser] = useState('');
     const [searchData, setSearchData] = useState([]);
@@ -43,41 +45,59 @@ export default function CommunityPage(props) {
         return str.length === 0;
     }
 
-		function isObjectEmpty(obj) {
-			return Object.keys(obj).length === 0;
-		}
+    function isObjectEmpty(obj) {
+        return Object.keys(obj).length === 0;
+    }
 
     return (
+			<>
         <Container>
             <div style={{ display: 'flex' }}>
-                <div style={{ flex: 1 }}>
-                    <div>
-                        <b>Find Friends</b>
-                    </div>
-                    <TextField
-                        type="text"
-                        value={searchUser}
-                        onChange={handleSearch}
-                        placeholder="Search users..."
-                        variant="outlined"
-                        style={{ width: '70%' }}
-                    />
-                    {isEmptyString(searchUser) ? (
-                        <UserList userData={allUsers} />
-                    ) : (
-                        <UserList userData={searchData} />
-                    )}
-                </div>
-                <Divider orientation="vertical" flexItem />
-                <div style={{ flex: 1 }}>
-                    <b>My Friends</b>
-                    {isObjectEmpty(friendData) ? (
+						<div style={{ flex: 1 }}>
+						<Card sx={{ backgroundColor: theme.palette.tertiary.main, boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', borderRadius: '8px', margin: '0 auto' }}>
+								<CardContent style={{ textAlign: 'center' }}>
+										<div style={{ textAlign: 'center' }}>
+												<h1 style={{fontWeight: 600}}>FIND FRIENDS</h1>
+										</div>
+										<TextField
+												id="outlined-basic" 
+												label="Search users" 
+												variant="outlined"
+												value={searchUser}
+												onChange={handleSearch}
+												style={{ width: '80%', backgroundColor: 'white', padding: '6px', fontSize: '12px' }}
+										/>
+									</CardContent>
+							</Card>
+							<div>
+								{isEmptyString(searchUser) ? (
+												<UserList userData={allUsers} />
+										) : (
+												<UserList userData={searchData} />
+										)}
+							</div>
+										
+					</div>
+							<div style={{ flex: 1 }}>
+								<Card sx={{ backgroundColor: theme.palette.secondary.main, boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', borderRadius: '8px', maxWidth: '400px', margin: '0 auto' }}>
+									<CardContent>
+										<div style={{ textAlign: 'center' }}>
+										<h2 style={{fontWeight: 500}}>MY FRIENDS</h2>
+											<Divider />
+										</div>
+										{isObjectEmpty(friendData) ? (
 											<div>Search for friends by users</div>
-                    ) : (
+										) : (
 											<FriendsList userData={friendData} />
-                    )}
-                </div>
+										)}
+									</CardContent>
+								</Card>
             </div>
+					</div>
         </Container>
+				<Typography variant="h2" style={{ textAlign: 'center', marginTop: '50px' }}>
+        
+				</Typography>
+				</>
     );
 }
