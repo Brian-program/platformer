@@ -47,7 +47,7 @@ export default function App() {
           <Route path="/profile/:searchId" element={<Profile user_id={user_id}/>} />
           <Route path="/albums/:album_id" element={<AlbumInfoPage />} />
           <Route path="/advanced_search/" element={<AdvancedSearch/>} />
-          <Route path="/friendlist" element={<CommunityPage />} />
+          <Route path="/friendlist" element={<CommunityPage user_id={user_id}/>} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

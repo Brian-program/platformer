@@ -2,23 +2,22 @@ import { useEffect, useState } from 'react';
 import { Box, Container } from '@mui/material';
 import { useParams } from 'react-router-dom';
 
-const config = require('../config.json');
+const API_KEY = 'd2e25fe6';
 
-export default function MoviePage() {
-  const [movie, setMovie] = useState([]);
+function MoviePage() {
+  const [movie, setMovie] = useState({});
+  const [posterUrl, setPosterUrl] = useState('');
   const { movieId } = useParams();
 
   useEffect(() => {
-    fetch(`http://${config.server_host}:${config.server_port}/movies/${movieId}`)
-      .then(res => res.json())
-      .then(resJson => setMovie(resJson));
+    async function fetchData() {
+      const response = await fetch(`http://www.omdbapi.com/?i=${movieId}&apikey=${API_KEY}`);
+      const data = await response.json();
+      setMovie(data);
+      setPosterUrl(data.Poster);
+    }
+    fetchData();
   }, [movieId]);
-
-  console.log(movie.titleId);
-  
-  if (!movie) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <Container maxWidth="md">
@@ -27,17 +26,17 @@ export default function MoviePage() {
         m={2}
         style={{ background: 'white', borderRadius: '16px', border: '2px solid #000' }}
       >
-        <h1>{movie.title}</h1>
+        <h1>{movie.Title}</h1>
         <img
-          src={movie.poster_url}
-          alt={`${movie.title} poster`}
+          src={posterUrl}
+          alt={`${movie.Title}`}
           style={{ maxWidth: '100%' }}
         />
-        <p>Released: {movie.startYear}</p>
-        {/* <p>Director: {movie.director}</p>
-        <p>Cast: {movie.cast.join(', ')}</p>
-        <p>Plot: {movie.plot}</p> */}
+
+        <p>Released: {movie.Year}</p>
       </Box>
     </Container>
   );
 }
+
+export default MoviePage;

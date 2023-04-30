@@ -54,7 +54,7 @@ export default function SongsPage() {
     { field: 'title', headerName: 'Title', width: 300, renderCell: (params) => (
         <Link onClick={() => setSelectedSongId(params.row.song_id)}>{params.value}</Link>
     ) },
-    { field: 'duration', headerName: 'Duration' },
+    { field: 'duration', headerName: 'Duration', width: 'auto'},
     { field: 'plays', headerName: 'Plays' },
     { field: 'danceability', headerName: 'Danceability' },
     { field: 'energy', headerName: 'Energy' },
