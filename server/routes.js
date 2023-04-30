@@ -300,56 +300,85 @@ const simple_search = async function(req, res) {
 
 //GET /advanced_search
 const advanced_search = async function(req, res) {
-  const title = req.query.title ?? '';
-  const durationMin = req.query.durationMin ?? 1;
-  const durationMax = req.query.durationMax ?? 1320;
-  const yearMin = req.query.yearMin ?? 1888;
-  const yearMax = req.query.yearMax ?? 2026;
-  const ratingMin = req.query.ratingMin ?? 0;
-  const ratingMax = req.query.ratingMax ?? 10;
-  const genre1 = req.query.plays_low ?? '';
-  const genre2 = req.query.plays_low ?? '';
-  const genre3 = req.query.plays_low ?? '';
-  const netflix = req.query.plays_high ?? 0;
-  const hulu = req.query.plays_high ?? 0;
-  const disney = req.query.plays_high ?? 0;
-  const prime = req.query.plays_high ?? 0;
+    const title = req.query.title ?? '';
+    const durationMin = req.query.durationMin ?? 1;
+    const durationMax = req.query.durationMax ?? 1320;
+    const yearMin = req.query.yearMin ?? 1888;
+    const yearMax = req.query.yearMax ?? 2026;
+    const ratingMin = req.query.ratingMin ?? 0;
+    const ratingMax = req.query.ratingMax ?? 10;
+    const genre1 = req.query.genre1 ?? '';
+    const genre2 = req.query.genre2 ?? '';
+    const genre3 = req.query.genre3 ?? '';
+    const netflix = req.query.netflix ?? 0;
+    const hulu = req.query.hulu ?? 0;
+    const disney = req.query.disney ?? 0;
+    const prime = req.query.prime ?? 0;
 
-  connection.query(`
-  SELECT *
-  FROM (SELECT akas.titleId, 
-    akas.title, 
-    ratings.averageRating AS rating,
-    crew.directors, 
-    basics.startYear, 
-    basics.endYear, 
-    basics.runtimeMinutes AS duration, 
-    basics.genres AS genre
-    FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN crew ON akas.titleId = crew.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
-    ) imdb
-  LEFT JOIN kaggle ON imdb.title = kaggle.title
-  WHERE title LIKE '%${title}%' AND
-  ratings >= ${ratingMin} AND ratings <= ${ratingMax} AND
-  startYear >= ${yearMin} AND start <= ${yearMax} AND
-  duration >= ${durationMin} AND duration <= ${durationMax} AND
-  (genres LIKE '%${genre1}%' OR genres LIKE '%${genre2}%' OR genres LIKE '%${genre3}%')
-  AND (
-    (Netflix = ${netflix} AND Netflix = 1)  OR 
-    (Hulu = ${hulu} AND Hulu = 1) OR 
-    (PrimeVideo = ${prime} AND PrimeVideo = 1) OR 
-    (DisneyPlus = ${disney} AND DisneyPlus = 1)
-    )
-  ORDER BY title LIKE '%${title}%'
-`, (err, data) => {
-  if (err || data.length === 0) {
-    console.log(err);
-    res.json([]);
-  } else {
-    res.json(data);
-  }
-});
+    if (netflix == 0 && hulu == 0 && disney == 0 && prime == 0) {
+    connection.query(`
+        SELECT *
+        FROM (SELECT akas.titleId, 
+          akas.title, 
+          ratings.averageRating AS rating,
+          crew.directors, 
+          basics.startYear, 
+          basics.endYear, 
+          basics.runtimeMinutes AS duration, 
+          basics.genres AS genres
+        FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN crew ON akas.titleId = crew.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
+        ) imdb
+        LEFT JOIN kaggle ON imdb.title = kaggle.title
+        WHERE imdb.title LIKE '${title}%' AND
+        rating >= ${ratingMin} AND rating <= ${ratingMax} AND
+        startYear >= ${yearMin} AND startYear <= ${yearMax} AND
+        duration >= ${durationMin} AND duration <= ${durationMax} AND
+        (genres LIKE '%${genre1}%' AND genres LIKE '%${genre2}%' AND genres LIKE '%${genre3}%')
+        ORDER BY imdb.rating DESC
+    `, (err, data) => {
+        if (err || data.length === 0) {
+        console.log(err);
+        res.json([]);
+        } else {
+        res.json(data);
+        }
+    });
+    } else {
+        connection.query(`
+        SELECT *
+        FROM (SELECT akas.titleId, 
+          akas.title, 
+          ratings.averageRating AS rating,
+          crew.directors, 
+          basics.startYear, 
+          basics.endYear, 
+          basics.runtimeMinutes AS duration, 
+          basics.genres AS genres
+        FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN crew ON akas.titleId = crew.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
+        ) imdb
+        LEFT JOIN kaggle ON imdb.title = kaggle.title
+        WHERE imdb.title LIKE '${title}%' AND
+        rating >= ${ratingMin} AND rating <= ${ratingMax} AND
+        startYear >= ${yearMin} AND startYear <= ${yearMax} AND
+        duration >= ${durationMin} AND duration <= ${durationMax} AND
+        (genres LIKE '%${genre1}%' AND genres LIKE '%${genre2}%' AND genres LIKE '%${genre3}%')
+        AND (
+        (Netflix = ${netflix} AND Netflix = 1)  OR 
+        (Hulu = ${hulu} AND Hulu = 1) OR 
+        (PrimeVideo = ${prime} AND PrimeVideo = 1) OR 
+        (DisneyPlus = ${disney} AND DisneyPlus = 1)
+        )
+        ORDER BY imdb.rating DESC
+    `, (err, data) => {
+        if (err || data.length === 0) {
+        console.log(err);
+        res.json([]);
+        } else {
+        res.json(data);
+        }
+    });
+    }
 }
-
 
 // GET /all_users
 const all_users = async function(req, res) {

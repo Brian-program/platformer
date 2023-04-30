@@ -135,6 +135,11 @@ export default function App() {
           });
       }, []);
 
+    const[netflix, setNetflix] = useState(streamingServices.netflix ? 1 : 0);
+    const[hulu, setHulu] = useState(streamingServices.hulu ? 1 : 0);
+    const[disney, setDisney] = useState(streamingServices.disneyPlus ? 1 : 0);
+    const[prime, setPrime] = useState(streamingServices.primeVideo ? 1 : 0);
+
     const handleSearch = () => {
         // handle search functionality
         console.log('INPUTS')
@@ -153,18 +158,23 @@ export default function App() {
         console.log('Genre 2: ', genres.genre2);
         console.log('Genre 3: ', genres.genre3);
         console.log('Sort by: ', sortBy);
+        console.log('netflix: ', netflix);
+        console.log('hulu: ', hulu);
+        console.log('disney: ', disney);
+        console.log('prime: ', prime);
+
 
         fetch(`http://${config.server_host}:${config.server_port}/advanced_search?title=${searchText}` +
-        `&duration_min=${duration[0]}&duration_max=${duration[1]}` +
-        `&year_min=${year[0]}&year_max=${year[1]}` +
-        `&rating_min=${rating[0]}&rating_max=${rating[1]}` +
+        `&durationMin=${duration[0]}&durationMax=${duration[1]}` +
+        `&yearMin=${year[0]}&yearMax=${year[1]}` +
+        `&ratingMin=${rating[0]}&ratingMax=${rating[1]}` +
         `&genre1=${genres.genre1}` +
         `&genre2=${genres.genre2}` +
         `&genre3=${genres.genre3}` +
-        `&netflix=${streamingServices.netflix ? 1 : 0}` +
-        `&hulu=${streamingServices.hulu ? 1 : 0}` +
-        `&disney=${streamingServices.disneyPlus ? 1 : 0}` +
-        `&prime=${streamingServices.primeVideo ? 1 : 0}`
+        `&netflix=${netflix}` +
+        `&hulu=${hulu}` +
+        `&disney=${disney}` +
+        `&prime=${prime}`
         )
         .then(res => res.json())
         .then(resJson => {
@@ -176,7 +186,7 @@ export default function App() {
         console.log('Query output: ', data);
     };
     const columns = [
-        { field: 'image', headerName: 'Image'},
+        // { field: 'image', headerName: 'Image'},
         { field: 'title', headerName: 'Title', width: 300, renderCell: (params) => (
             <Link onClick={() => setSelectedTitleId(params.row.titleId)}>{params.value}</Link>
         ) },
@@ -184,7 +194,7 @@ export default function App() {
         { field: 'endYear', headerName: 'End Year' },
         { field: 'rating', headerName: 'Rating' },
         { field: 'duration', headerName: 'Duration (minutes)'},
-        { field: 'genre', headerName: 'Genres'},
+        { field: 'genres', headerName: 'Genres', width: 200},
         { field: 'Netflix', headerName: 'Netflix' },
         { field: 'Hulu', headerName: 'Hulu' },
         { field: 'PrimeVideo', headerName: 'Amazon Prime Video' },
@@ -359,10 +369,18 @@ export default function App() {
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <h2>Streaming Services</h2>
                     <FormGroup>
-                        <FormControlLabel control={<Checkbox onChange={(e) => setStreamingServices({...streamingServices, netflix: !streamingServices.netflix})}/>} label="Netflix"/>
-                        <FormControlLabel control={<Checkbox onChange={(e) => setStreamingServices({...streamingServices, hulu: !streamingServices.hulu})}/>} label="Hulu" />
-                        <FormControlLabel control={<Checkbox onChange={(e) => setStreamingServices({...streamingServices, primeVideo: !streamingServices.primeVideo})}/>} label="Amazon Prime Video" />
-                        <FormControlLabel control={<Checkbox onChange={(e) => setStreamingServices({...streamingServices, disneyPlus: !streamingServices.disneyPlus})}/>} label="Disney+" />
+                        <FormControlLabel control={<Checkbox onChange={(e) => 
+                            {setStreamingServices({...streamingServices, netflix: !streamingServices.netflix})
+                            setNetflix(!streamingServices.netflix ? 1 : 0)}}/>} label="Netflix"/>
+                        <FormControlLabel control={<Checkbox onChange={(e) => 
+                            {setStreamingServices({...streamingServices, hulu: !streamingServices.hulu})
+                            setHulu(!streamingServices.hulu ? 1 : 0)}}/>} label="Hulu" />
+                        <FormControlLabel control={<Checkbox onChange={(e) =>
+                            {setStreamingServices({...streamingServices, primeVideo: !streamingServices.primeVideo})
+                            setPrime(!streamingServices.primeVideo ? 1 : 0)}}/>} label="Amazon Prime Video" />
+                        <FormControlLabel control={<Checkbox onChange={(e) => 
+                            {setStreamingServices({...streamingServices, disneyPlus: !streamingServices.disneyPlus})
+                            setDisney(!streamingServices.disneyPlus ? 1 : 0)}}/>} label="Disney+" />
                     </FormGroup>
                 </div>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
