@@ -19,8 +19,13 @@ export default function Profile(props) {
     console.log(userId);
     // console.log(searchId);
 
+    //returns true is searchId is not null
     function isSearchIdNotNull(searchId) {
       return typeof searchId !== 'undefined';
+    }
+
+    function isLoggedIn(userId) {
+      return userId !== "";
     }
 
     useEffect(() => {
@@ -81,7 +86,9 @@ export default function Profile(props) {
           <b>Profile : {isSearchIdNotNull(searchId) ? searchId : userId}</b>
         </Typography>
 
-        <div style={{ display: "flex" }}>
+        {
+          (isSearchIdNotNull(searchId) && isLoggedIn(userId)) ? (
+          <div style={{ display: "flex" }}>
           <Button variant="contained" color="primary">
             Add To Friends List
           </Button>
@@ -89,6 +96,8 @@ export default function Profile(props) {
             Remove From Friends List
           </Button>
         </div>
+        ) : <></>
+        }
 
         <Typography variant="h4" align="left" gutterBottom>
           <b>Watchlist</b>
