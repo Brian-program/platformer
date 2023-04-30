@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Container } from '@mui/material';
+import { Box, Container, Button } from '@mui/material';
 import { useParams } from 'react-router-dom';
 
 const API_KEY = 'd2e25fe6';
@@ -26,6 +26,8 @@ function MoviePage() {
         m={2}
         style={{ background: 'white', borderRadius: '16px', border: '2px solid #000' }}
       >
+        <Button variant="contained" color="primary" style={{ float: 'right', margin: '5px' }}>Delete from Watchlist</Button>
+        <Button variant="contained" color="secondary" style={{ float: 'right', margin: '5px' }}>Add To Watchlist</Button>
         <h1>{movie.Title}</h1>
         <img
           src={posterUrl}
