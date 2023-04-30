@@ -30,9 +30,9 @@ export default function App() {
         <Routes> 
           <Route path="/" element={<Home/>} />
           <Route path="/login" element={<Login user_id={user_id} setUser_id={setUser_id}/>} />
+          <Route path="/movies/:movieId" element={<MoviePage user_id={user_id}/>} />
           <Route path="/logout" element={<Logout user_id={user_id} setUser_id={setUser_id}/>} />
           <Route path="/create_account" element={<CreateAccount user_id={user_id} setUser_id={setUser_id}/>} />
-          <Route path="/movies/:movieId" element={<MoviePage />} />
           <Route path="/profile" element={<Profile user_id={user_id} setUser_id={setUser_id}/>} />
           <Route path="/profile/:searchId" element={<Profile user_id={user_id}/>} />
           <Route path="/albums/:album_id" element={<AlbumInfoPage />} />

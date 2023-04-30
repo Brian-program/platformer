@@ -114,6 +114,23 @@ const getFriend = async function(req, res) {
   });
 }
 
+const getUserMovie = async function(req, res) {
+  const userId = req.params.userId;
+  const titleId = req.params.titleId;
+  connection.query(`
+    SELECT titleId
+    FROM watchlist
+    WHERE userId = '${userId}' AND titleId = '${titleId}'
+  `, (err, data) => {
+    if (err || data.length === 0) {
+      console.log(err);
+      res.json({});
+    } else {
+      res.json(data);
+    }
+  });
+}
+
 // GET /watchlist/:userId
 const watchlist = async function(req, res) {
   const userId = req.params.userId;
@@ -502,6 +519,53 @@ const remove_friendlist = async function(req, res) {
   });
 }
 
+
+// POST
+const add_watchlist = async function(req, res) {
+  console.log("add watchlist");
+  let body = '';
+  req.on('data', chunk => {
+    body += chunk.toString();
+  });
+  req.on('end', () => {
+    const { userId, titleId } = JSON.parse(body);
+    console.log(JSON.parse(body));
+    connection.query(`
+      INSERT INTO watchlist (userId, titleId)
+      VALUES ('${userId}', '${titleId}')
+    `, (err, data) => {
+      if (err) {
+        console.log(err);
+        res.json({ success: false });
+      } else {
+        res.json({ success: true });
+      }
+    });
+  });
+}
+
+//DELETE
+const remove_watchlist = async function(req, res) {
+  let body = '';
+  req.on('data', chunk => {
+    body += chunk.toString();
+  });
+  req.on('end', () => {
+    const { userId, titleId } = JSON.parse(body);
+    connection.query(`
+      DELETE FROM watchlist
+      WHERE userId = '${userId}' AND titleId = '${titleId}'
+    `, (err, data) => {
+      if (err) {
+        console.log(err);
+        res.json({ success: false });
+      } else {
+        res.json({ success: true });
+      }
+    });
+  });
+}
+
 module.exports = {
   // random,
   movies,
@@ -518,8 +582,11 @@ module.exports = {
   all_users,
   search_user,
   user_login,
+  getUserMovie,
 
   add_friendlist,
+  add_watchlist,
+  remove_watchlist,
   add_user,
 
   remove_friendlist,
