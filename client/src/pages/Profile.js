@@ -71,6 +71,7 @@ export default function Profile(props) {
         .then(response => response.json())
         .then(data => console.log(data))
         .catch(error => console.error(error));
+        navigate("/friendlist");
       }
     }    
 
@@ -89,6 +90,7 @@ export default function Profile(props) {
       .then(response => response.json())
       .then(data => console.log(data))
       .catch(error => console.error(error));
+      navigate("/friendlist");
     }
 
     return (
