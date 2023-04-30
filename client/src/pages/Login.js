@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, Container, TextField, Typography } from '@mui/material';  
+import { Box, Button, Card, Divider, TextField, Typography } from '@mui/material';  
 import { useNavigate } from 'react-router-dom';
+import theme from '../theme';
+
 
 const config = require('../config.json');
 
@@ -51,32 +53,44 @@ const Login = ({ user_id, setUser_id }) => {
   }
   
     return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <Container maxWidth="sm" sx={{ border: '1px solid black', padding: 2 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '65vh' }}>
+        <Card sx={{ backgroundColor: theme.palette.secondary.main, maxWidth: 'sm', padding: 4 }}>
           <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: 'bold' }}>
             LOGIN
           </Typography>
-          <TextField label="Username" fullWidth margin="normal" value={username} onChange={(e) => setUsername(e.target.value)} />
-          <TextField label="Password" fullWidth margin="normal" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <TextField id="outlined-basic" 
+												variant="outlined"
+                        label="Username" 
+                        fullWidth margin="normal" 
+                        value={username} 
+                        onChange={(e) => setUsername(e.target.value)} 
+                        style={{ backgroundColor: 'white'}}/>
+          <TextField id="outlined-basic" 
+												variant="outlined"
+                        label="Password" 
+                        fullWidth margin="normal" 
+                        value={password} 
+                        onChange={(e) => setPassword(e.target.value)} 
+                        style={{ backgroundColor: 'white'}}/>
           <Button variant="contained" fullWidth sx={{
             marginTop: 2,
-            backgroundColor: '#00bcd4',
-            '&:hover': {
-              backgroundColor: '#4caf50',
-            },
+            backgroundColor: theme.palette.primary.main,
             color: '#fff'
           }} onClick={() => isCorrectLogin(username, password)}>
             Login
           </Button>
-          <Button variant="outlined" fullWidth sx={{ marginTop: 2 }} onClick = {() => navigate('/create_account')}>
+          <Button variant="contained" fullWidth sx={{ marginTop: 2, backgroundColor: theme.palette.tertiary.main, }} onClick = {() => navigate('/create_account')}>
             Create Account
           </Button>
           {status && (
-        <Typography variant="body1" sx={{ color: 'red' }}>
-          {status}
-        </Typography>
-        )}
-        </Container>
+            
+            <Typography variant="body1" sx={{ color: 'red', textAlign: 'center' }}>
+              <Divider sx={{ my: 2, color: theme.palette.secondary.main }} />
+              {status}
+            </Typography>
+          )}
+        </Card>
+
       </Box>
     );
   };

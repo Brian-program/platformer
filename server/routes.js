@@ -334,7 +334,7 @@ const advanced_search = async function(req, res) {
         startYear >= ${yearMin} AND startYear <= ${yearMax} AND
         duration >= ${durationMin} AND duration <= ${durationMax} AND
         (genres LIKE '%${genre1}%' AND genres LIKE '%${genre2}%' AND genres LIKE '%${genre3}%')
-        ORDER BY imdb.rating DESC
+        ORDER BY Netflix DESC, Hulu DESC, PrimeVideo DESC, DisneyPlus DESC, imdb.rating DESC
     `, (err, data) => {
         if (err || data.length === 0) {
         console.log(err);

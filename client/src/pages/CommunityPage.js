@@ -49,6 +49,9 @@ export default function CommunityPage(props) {
         return Object.keys(obj).length === 0;
     }
 	
+	function isLoggedIn(userId) {
+		return userId !== "";
+	  }
 
     return (
 			<>
@@ -86,11 +89,15 @@ export default function CommunityPage(props) {
 										<h2 style={{fontWeight: 500}}>MY FRIENDS</h2>
 											<Divider />
 										</div>
-										{isObjectEmpty(friendData) ? (
-											<div style={{ textAlign: 'center', marginTop: '20px' }}>Search for friends by username</div>
-										) : (
-											<FriendsList userData={friendData} />
-										)}
+										{isLoggedIn(userId) ? (
+											isObjectEmpty(friendData) ? (
+												<div style={{ textAlign: 'center', marginTop: '20px' }}>Search for friends by username</div>
+											) : (
+												<FriendsList userData={friendData} />
+											)
+											) : (
+											<div style={{ textAlign: 'center', marginTop: '20px' }}>Log in to view your friends</div>
+											)}
 									</CardContent>
 								</Card>
             </div>
