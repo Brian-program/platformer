@@ -39,7 +39,7 @@ export default function Home() {
             <Card sx={{backgroundColor: theme.palette.secondary.main, width: '100%'}}>
         <CardContent>
           <Box sx={{ padding: 1, }}>
-            <Typography variant="h2" sx={{ fontWeight: 500, fontSize: '36px', textAlign: 'left', marginLeft: '10px', marginBottom: '6px'}}>
+            <Typography variant="h2" sx={{ fontWeight: 500, fontSize: '32px', textAlign: 'left', marginLeft: '10px', marginBottom: '6px', letterSpacing: '.2rem',}}>
               TOP RATED
             </Typography>
             <MovieRow movies={topMovies} />
@@ -53,7 +53,7 @@ export default function Home() {
       <Card sx={{backgroundColor: theme.palette.secondary.main}}>
         <CardContent>
           <Box sx={{ padding: 1}}>
-            <Typography variant="h2" sx={{ fontWeight: 500, fontSize: '36px', textAlign: 'left', marginLeft: '10px', marginBottom: '6px'}}>
+            <Typography variant="h2" sx={{ fontWeight: 500, fontSize: '32px', textAlign: 'left', marginLeft: '10px', marginBottom: '6px', letterSpacing: '.2rem',}}>
               TOP ON NETFLIX
             </Typography>
         <MovieRow movies={topNetflix} />
@@ -67,7 +67,7 @@ export default function Home() {
       <Card sx={{backgroundColor: theme.palette.secondary.main}}>
         <CardContent>
           <Box sx={{ padding: 1}}>
-            <Typography variant="h2" sx={{ fontWeight: 500, fontSize: '36px', textAlign: 'left', marginLeft: '10px', marginBottom: '6px'}}>
+            <Typography variant="h2" sx={{ fontWeight: 500, fontSize: '32px', textAlign: 'left', marginLeft: '10px', marginBottom: '6px', letterSpacing: '.2rem',}}>
               TOP ON HULU
         </Typography>
         <MovieRow movies={topHulu} />
@@ -81,7 +81,7 @@ export default function Home() {
       <Card sx={{backgroundColor: theme.palette.secondary.main}}>
         <CardContent>
           <Box sx={{ padding: 1}}>
-            <Typography variant="h2" sx={{ fontWeight: 500, fontSize: '36px', textAlign: 'left', marginLeft: '10px', marginBottom: '6px'}}>
+            <Typography variant="h2" sx={{ fontWeight: 500, fontSize: '32px', textAlign: 'left', marginLeft: '10px', marginBottom: '6px', letterSpacing: '.2rem',}}>
               TOP ON DISNEY+
         </Typography>
         <MovieRow movies={topDisneyPlus} />
@@ -95,7 +95,7 @@ export default function Home() {
       <Card sx={{backgroundColor: theme.palette.secondary.main}}>
         <CardContent >
           <Box sx={{ padding: 1}}>
-            <Typography variant="h2" sx={{ fontWeight: 500, fontSize: '36px', textAlign: 'left', marginLeft: '10px', marginBottom: '6px'}}>
+            <Typography variant="h2" sx={{ fontWeight: 500, fontSize: '32px', textAlign: 'left', marginLeft: '10px', marginBottom: '6px', letterSpacing: '.2rem',}}>
               TOP ON PRIME VIDEO
         </Typography>
         <MovieRow movies={topPrimeVideo} />

@@ -8,9 +8,9 @@ const config = require('../config.json');
 function MoviePage(props) {
   const [userId, setUserId] = useState(props.user_id);
   const [movie, setMovie] = useState({});
+  const [movieData, setMovieData] = useState({});
   const [posterUrl, setPosterUrl] = useState('');
   const { movieId } = useParams();
-
 
   function isMoviePresent(movie) {
     return movie.length !== 0;
@@ -28,7 +28,11 @@ function MoviePage(props) {
       setPosterUrl(data.Poster);
     }
     fetchData();
+    fetch(`http://${config.server_host}:${config.server_port}/movies/${movieId}`)
+            .then(res => res.json())
+            .then(resJson => setMovieData(resJson));
   }, [movieId]);
+
 
   function addToWatchlist(userId, titleId) {
 
@@ -67,6 +71,27 @@ function MoviePage(props) {
     }
   }
 
+  
+  const onNetflix = (movieData) => {
+    return movieData.Netflix === null ? false : movieData.Netflix === 1;
+  };
+  console.log("netflix", onNetflix(movieData));
+  
+  const onHulu = (movieData) => {
+    return movieData.Hulu === null ? false : movieData.Hulu === 1;
+  };
+  console.log("hulu", onHulu(movieData));
+  
+  const onDisney = (movieData) => {
+    return movieData.DisneyPlus === null ? false : movieData.DisneyPlus === 1;
+  };
+  console.log("disney", onDisney(movieData));
+  
+  const onPrime = (movieData) => {
+    return movieData.PrimeVideo === null ? false : movieData.PrimeVideo === 1;
+  };
+  console.log("prime", onPrime(movieData));
+  
 
   return (
     <Container maxWidth="md">
@@ -97,6 +122,26 @@ function MoviePage(props) {
               </Button>
             </div>
             ) : <></> 
+          }
+          {
+            (onNetflix(movieData)) ? (
+              <p>Netflix</p>
+            ) : <></>
+          }
+          {
+            (onHulu(movieData)) ? (
+              <p>Hulu</p>
+            ) : <></>
+          }
+          {
+            (onDisney(movieData)) ? (
+              <p>Disney+</p>
+            ) : <></>
+          }
+          {
+            (onPrime(movieData)) ? (
+              <p>Prime Video</p>
+            ) : <></>
           }
         </div>
       </Box>

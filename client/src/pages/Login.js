@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Box, Button, Card, Divider, TextField, Typography } from '@mui/material';  
 import { useNavigate } from 'react-router-dom';
 import theme from '../theme';
@@ -15,25 +15,19 @@ const Login = ({ user_id, setUser_id }) => {
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-      console.log(actualLogin);
-      if(isPasswordEmpty()){
-        setStatus("Empty Password");
-      } else if (isActualLoginEmpty()) {
-          setStatus("Invalid Username or Password Incorrect or Please Try AGAIN");
-      } else if (isLoginValid()) {
-          setStatus("");
-          setUser_id(username);
-          navigate('/profile');
-      }
-    }, [actualLogin]);
-
-
     const isCorrectLogin = (username, password) => {
         fetch(`http://${config.server_host}:${config.server_port}/user_login/${username}`)
         .then(res => res.json())
         .then(resJson => {
             setActualLogin(resJson);
+            console.log(actualLogin);
+            if (isActualLoginEmpty()) {
+                setStatus("Invalid Username or Password or Please Try AGAIN");
+            } else if (isLoginValid()) {
+                setStatus("");
+                setUser_id(username);
+                navigate('/profile');
+            }
         })
         .catch(error => {
             console.log(error);
@@ -41,16 +35,12 @@ const Login = ({ user_id, setUser_id }) => {
     }
 
     const isActualLoginEmpty = () => {
-      return Array.isArray(actualLogin) && actualLogin.length === 0 || Object.keys(actualLogin).length === 0;
-  }
+        return actualLogin.length === 0;
+    }
 
     const isLoginValid = () => {
         return actualLogin.password === password;
     }
-
-    const isPasswordEmpty = () => {
-      return password.length === 0;
-  }
   
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '65vh' }}>
@@ -79,15 +69,15 @@ const Login = ({ user_id, setUser_id }) => {
           }} onClick={() => isCorrectLogin(username, password)}>
             Login
           </Button>
-          <Button variant="contained" fullWidth sx={{ marginTop: 2, backgroundColor: theme.palette.tertiary.main, }} onClick = {() => navigate('/create_account')}>
+          <Button variant="contained" fullWidth sx={{ marginTop: 2, backgroundColor: theme.palette.tertiary.main, }}>
             Create Account
           </Button>
           {status && (
             
             <Typography variant="body1" sx={{ color: 'red', textAlign: 'center' }}>
-              <Divider sx={{ my: 2, color: theme.palette.secondary.main }} />
-              {status}
-            </Typography>
+            <Divider sx={{ my: 2, color: theme.palette.secondary.main }} />
+            {status}
+          </Typography>
           )}
         </Card>
 
