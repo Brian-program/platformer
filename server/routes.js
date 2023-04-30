@@ -374,11 +374,11 @@ const search_user = async function(req, res) {
 const user_login = async function(req, res) {
 
   //returns a password for a specific userId
-  const userId = req.params.userId;
+  const username = req.params.username;
   connection.query(`
     SELECT password
     FROM users
-    WHERE userId = ${userId}
+    WHERE userId = "${username}"
   `, (err, data) => {
     if (err || data.length === 0) {
       console.log(err);

@@ -32,8 +32,6 @@ export default function Home() {
       .then(resJson => setTopNetflix(resJson));
   }, []);
 
-
-  //ADD HEADERS FOR EACH OF THESE
   return (
     <Container>
       <Box sx={{ border: '1px solid black', padding: 2, marginBottom: 2 }}>
@@ -72,4 +70,5 @@ export default function Home() {
       </Box>
     </Container>
   );
+
 };

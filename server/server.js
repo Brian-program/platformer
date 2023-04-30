@@ -24,7 +24,7 @@ app.get('/top_netflix', routes.top_netflix);
 app.get('/top_hulu', routes.top_hulu);
 app.get('/search_user/:userId', routes.search_user);
 app.get('/all_users', routes.all_users);
-app.get('/user_login/:userId', routes.user_login);
+app.get('/user_login/:username', routes.user_login);
 
 
 app.listen(config.server_port, () => {
