@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Container, Divider, Link } from '@mui/material';
+import { Container, Divider, Link, Box, Typography } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
 import MovieRow from '../components/MovieRow';
@@ -36,30 +36,40 @@ export default function Home() {
   //ADD HEADERS FOR EACH OF THESE
   return (
     <Container>
-      <div style={{fontSize: '32px', fontWeight:'bold', marginBottom:'10px', textAlign:'left' }}>
-        TOP RATED
-      </div>
-      <MovieRow movies={topMovies} />
+      <Box sx={{ border: '1px solid black', padding: 2, marginBottom: 2 }}>
+        <Typography variant="h4" sx={{ textAlign: 'left' }}>
+          TOP RATED
+        </Typography>
+        <MovieRow movies={topMovies} />
+      </Box>
 
-      <div style={{fontSize: '32px', fontWeight:'bold', marginBottom:'10px', textAlign:'left' }}>
-        TOP ON NETFLIX
-      </div>
-      <MovieRow movies={topNetflix} />
+      <Box sx={{ border: '1px solid black', padding: 2, marginBottom: 2 }}>
+        <Typography variant="h4" sx={{ textAlign: 'left' }}>
+          TOP ON NETFLIX
+        </Typography>
+        <MovieRow movies={topNetflix} />
+      </Box>
 
-      <div style={{fontSize: '32px', fontWeight:'bold', marginBottom:'10px', textAlign:'left' }}>
-        TOP ON HULU
-      </div>
-      <MovieRow movies={topHulu} />
+      <Box sx={{ border: '1px solid black', padding: 2, marginBottom: 2 }}>
+        <Typography variant="h4" sx={{ textAlign: 'left' }}>
+          TOP ON HULU
+        </Typography>
+        <MovieRow movies={topHulu} />
+      </Box>
 
-      <div style={{fontSize: '32px', fontWeight:'bold', marginBottom:'10px', textAlign:'left' }}>
-        TOP ON DISNEY+
-      </div>
-      <MovieRow movies={topDisneyPlus} />
+      <Box sx={{ border: '1px solid black', padding: 2, marginBottom: 2 }}>
+        <Typography variant="h4" sx={{ textAlign: 'left' }}>
+          TOP ON DISNEY+
+        </Typography>
+        <MovieRow movies={topDisneyPlus} />
+      </Box>
 
-      <div style={{fontSize: '32px', fontWeight:'bold', marginBottom:'10px', textAlign:'left' }}>
-        TOP ON PRIME VIDEO
-      </div>
-      <MovieRow movies={topPrimeVideo} />
+      <Box sx={{ border: '1px solid black', padding: 2, marginBottom: 2 }}>
+        <Typography variant="h4" sx={{ textAlign: 'left' }}>
+          TOP ON PRIME VIDEO
+        </Typography>
+        <MovieRow movies={topPrimeVideo} />
+      </Box>
     </Container>
   );
 };
