@@ -188,7 +188,8 @@ export default function App() {
     const columns = [
         // { field: 'image', headerName: 'Image'},
         { field: 'title', headerName: 'Title', width: 300, renderCell: (params) => (
-            <Link onClick={() => setSelectedTitleId(params.row.titleId)}>{params.value}</Link>
+            <Link component={NavLink} to={`/movies/${params.row.titleId}`} style={{ textDecoration: 'none', color: 'blue' }}>
+              {params.row.title}</Link>
         ) },
         { field: 'startYear', headerName: 'Release Year' },
         { field: 'endYear', headerName: 'End Year' },
@@ -268,7 +269,7 @@ export default function App() {
                     {/*DURATION SLIDER */}
                     <Box sx={{ width: 300 }}>
                     <Typography id="input-slider" gutterBottom>
-                        Duration
+                        Duration (minutes)
                     </Typography>
                     <Grid container spacing={3} alignItems="center">
                         <Grid item xs>
@@ -318,7 +319,7 @@ export default function App() {
                     {/* RATING SLIDER */}
                     <Box sx={{ width: 300 }}>
                     <Typography id="input-slider" gutterBottom>
-                        Duration
+                        Rating
                     </Typography>
                     <Grid container spacing={3} alignItems="center">
                         <Grid item xs>
