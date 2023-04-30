@@ -26,12 +26,15 @@ app.get('/search_user/:userId', routes.search_user);
 app.get('/all_users', routes.all_users);
 app.get('/user_login/:username', routes.user_login);
 app.get('/getFriend/:userId/:followId', routes.getFriend);
+app.get('getUserMovie/:userId/:titleId', routes.getUserMovie);
 
 //post methods
 app.post('/add_friendlist', routes.add_friendlist);
+app.post('/add_watchlist', routes.add_watchlist);
 
 //delete methods
 app.delete('/remove_friendlist', routes.remove_friendlist);
+app.delete('/remove_watchlist', routes.remove_watchlist);
 
 
 app.listen(config.server_port, () => {

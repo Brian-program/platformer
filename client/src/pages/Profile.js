@@ -34,7 +34,6 @@ export default function Profile(props) {
     }
 
     console.log("friend: ", friend);
-    console.log("isnotfriend: ", isNotFriends(friend));
 
     useEffect(() => {
       if(isSearchIdNotNull(searchId)) {
@@ -77,21 +76,19 @@ export default function Profile(props) {
 
     
     function removeFromFollowings(userId, followId) {
-      if(!isNotFriends(friend)) {
-        fetch(`http://${config.server_host}:${config.server_port}/remove_friendlist`, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            userId: userId,
-            followId: followId
-          })
+      fetch('/api/followings', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userId: userId,
+          followId: followId
         })
-        .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => console.error(error));
-      }
+      })
+      .then(response => response.json())
+      .then(data => console.log(data))
+      .catch(error => console.error(error));
     }
 
     return (
@@ -106,7 +103,7 @@ export default function Profile(props) {
           <Button variant="contained" color="primary" onClick={() => addToFollowings(userId, searchId)}>
             Add To Friends List
           </Button>
-          <Button variant="contained" color="secondary" onClick={() => removeFromFollowings(userId, searchId)}>
+          <Button variant="contained" color="secondary">
             Remove From Friends List
           </Button>
         </div>
