@@ -194,11 +194,11 @@ export default function App() {
         { field: 'startYear', headerName: 'Release Year' },
         { field: 'endYear', headerName: 'End Year' },
         { field: 'rating', headerName: 'Rating' },
-        { field: 'duration', headerName: 'Duration (minutes)'},
+        { field: 'duration', headerName: 'Duration'},
         { field: 'genres', headerName: 'Genres', width: 200},
         { field: 'Netflix', headerName: 'Netflix' },
         { field: 'Hulu', headerName: 'Hulu' },
-        { field: 'PrimeVideo', headerName: 'Amazon Prime Video' },
+        { field: 'PrimeVideo', headerName: 'Prime Video' },
         { field: 'DisneyPlus', headerName: 'Disney+' }
       ]
 
