@@ -428,6 +428,29 @@ const add_friendlist = async function(req, res) {
   });
 }
 
+
+//DELETE
+const remove_friendlist = async function(req, res) {
+  let body = '';
+  req.on('data', chunk => {
+    body += chunk.toString();
+  });
+  req.on('end', () => {
+    const { userId, followId } = JSON.parse(body);
+    connection.query(`
+      DELETE FROM followings
+      WHERE userId = '${userId}' AND followId = '${followId}'
+    `, (err, data) => {
+      if (err) {
+        console.log(err);
+        res.json({ success: false });
+      } else {
+        res.json({ success: true });
+      }
+    });
+  });
+}
+
 module.exports = {
   // random,
   movies,
@@ -445,5 +468,7 @@ module.exports = {
   search_user,
   user_login,
 
-  add_friendlist
+  add_friendlist,
+
+  remove_friendlist,
 }
