@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Container, Divider, Link, Box, Typography } from '@mui/material';
+import { Container, Card, CardContent, Box, Typography } from '@mui/material';
 import { NavLink } from 'react-router-dom';
+import theme from '../theme';
+
 
 import MovieRow from '../components/MovieRow';
 const config = require('../config.json');
@@ -34,40 +36,95 @@ export default function Home() {
 
   return (
     <Container>
-      <Box sx={{ border: '1px solid black', padding: 2, marginBottom: 2 }}>
-        <Typography variant="h4" sx={{ textAlign: 'left' }}>
-          TOP RATED
-        </Typography>
-        <MovieRow movies={topMovies} />
-      </Box>
+      <Card sx={{backgroundColor: theme.palette.secondary.main,
+    '&:hover': {
+      backgroundColor: theme.palette.tertiary.main,
+      cursor: 'pointer',
+    },}}>
+        <CardContent>
+          <Box sx={{ padding: 1}}>
+            <Typography variant="h2" sx={{ fontWeight: 500, fontSize: '36px', textAlign: 'left', marginLeft: '10px', marginBottom: '6px'}}>
+              TOP RATED
+            </Typography>
+            <MovieRow movies={topMovies} />
+          </Box>
+        </CardContent>
+      </Card>
+      <Typography variant="h2" style={{ textAlign: 'center', marginTop: '50px' }}>
+        
+      </Typography>
 
-      <Box sx={{ border: '1px solid black', padding: 2, marginBottom: 2 }}>
-        <Typography variant="h4" sx={{ textAlign: 'left' }}>
-          TOP ON NETFLIX
-        </Typography>
+      <Card sx={{backgroundColor: theme.palette.secondary.main,
+    '&:hover': {
+      backgroundColor: theme.palette.tertiary.main,
+      cursor: 'pointer',
+    },}}>
+        <CardContent>
+          <Box sx={{ padding: 1}}>
+            <Typography variant="h2" sx={{ fontWeight: 500, fontSize: '36px', textAlign: 'left', marginLeft: '10px', marginBottom: '6px'}}>
+              TOP ON NETFLIX
+            </Typography>
         <MovieRow movies={topNetflix} />
-      </Box>
+        </Box>
+        </CardContent>
+      </Card>
+      <Typography variant="h2" style={{ textAlign: 'center', marginTop: '50px' }}>
+        
+      </Typography>
 
-      <Box sx={{ border: '1px solid black', padding: 2, marginBottom: 2 }}>
-        <Typography variant="h4" sx={{ textAlign: 'left' }}>
-          TOP ON HULU
+      <Card sx={{backgroundColor: theme.palette.secondary.main,
+    '&:hover': {
+      backgroundColor: theme.palette.tertiary.main,
+      cursor: 'pointer',
+    },}}>
+        <CardContent>
+          <Box sx={{ padding: 1}}>
+            <Typography variant="h2" sx={{ fontWeight: 500, fontSize: '36px', textAlign: 'left', marginLeft: '10px', marginBottom: '6px'}}>
+              TOP ON HULU
         </Typography>
         <MovieRow movies={topHulu} />
-      </Box>
+        </Box>
+        </CardContent>
+      </Card>
+      <Typography variant="h2" style={{ textAlign: 'center', marginTop: '50px' }}>
+        
+      </Typography>
 
-      <Box sx={{ border: '1px solid black', padding: 2, marginBottom: 2 }}>
-        <Typography variant="h4" sx={{ textAlign: 'left' }}>
-          TOP ON DISNEY+
+      <Card sx={{backgroundColor: theme.palette.secondary.main,
+    '&:hover': {
+      backgroundColor: theme.palette.tertiary.main,
+      cursor: 'pointer',
+    },}}>
+        <CardContent>
+          <Box sx={{ padding: 1}}>
+            <Typography variant="h2" sx={{ fontWeight: 500, fontSize: '36px', textAlign: 'left', marginLeft: '10px', marginBottom: '6px'}}>
+              TOP ON DISNEY+
         </Typography>
         <MovieRow movies={topDisneyPlus} />
-      </Box>
+        </Box>
+        </CardContent>
+      </Card>
+      <Typography variant="h2" style={{ textAlign: 'center', marginTop: '50px' }}>
+        
+      </Typography>
 
-      <Box sx={{ border: '1px solid black', padding: 2, marginBottom: 2 }}>
-        <Typography variant="h4" sx={{ textAlign: 'left' }}>
-          TOP ON PRIME VIDEO
+      <Card sx={{backgroundColor: theme.palette.secondary.main,
+    '&:hover': {
+      backgroundColor: theme.palette.tertiary.main,
+      cursor: 'pointer',
+    },}}>
+        <CardContent>
+          <Box sx={{ padding: 1}}>
+            <Typography variant="h2" sx={{ fontWeight: 500, fontSize: '36px', textAlign: 'left', marginLeft: '10px', marginBottom: '6px'}}>
+              TOP ON PRIME VIDEO
         </Typography>
         <MovieRow movies={topPrimeVideo} />
-      </Box>
+        </Box>
+        </CardContent>
+      </Card>
+      <Typography variant="h2" style={{ textAlign: 'center', marginTop: '50px' }}>
+        
+      </Typography>
     </Container>
   );
 

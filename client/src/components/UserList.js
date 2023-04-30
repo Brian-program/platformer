@@ -26,7 +26,7 @@ export default function UserList({ userData }) {
               <ListItemButton
                 component={NavLink}
                 to={`/profile/${user.userId}`}
-                style = {{ textAlign: 'center'}}
+                style= {{ textAlign: 'center'}}
               >
                 <Link>{user.userId}</Link>
               </ListItemButton>

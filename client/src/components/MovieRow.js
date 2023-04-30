@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Divider, Link } from '@mui/material';
 import { NavLink } from 'react-router-dom';
+import theme from '../theme';
 
 const API_KEY = 'd2e25fe6';
 
@@ -28,7 +29,7 @@ const MovieRow = ({ movies }) => {
             style={{ width: '100%', height: 'auto' }}
           />
           <div style={{ textAlign: 'center', marginTop: '5px' }}>
-            <Link component={NavLink} to={`/movies/${movie.titleId}`} style={{ textDecoration: 'none', color: 'blue' }}>
+            <Link component={NavLink} to={`/movies/${movie.titleId}`} style={{ textDecoration: 'none', color: 'black'}}>
               {movie.title}
             </Link>
           </div>

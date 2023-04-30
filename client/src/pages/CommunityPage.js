@@ -11,8 +11,8 @@ const config = require('../config.json');
 
 export default function CommunityPage(props) {
     const [userId, setUserId]  = useState(props.user_id);
-    // const userId = "iamandal";
-    console.log(props.user_id);
+
+	console.log(props.user_id);
     const [friendData, setFriendData] = useState([]);
     const [searchUser, setSearchUser] = useState('');
     const [searchData, setSearchData] = useState([]);
@@ -48,6 +48,7 @@ export default function CommunityPage(props) {
     function isObjectEmpty(obj) {
         return Object.keys(obj).length === 0;
     }
+	
 
     return (
 			<>
@@ -86,7 +87,7 @@ export default function CommunityPage(props) {
 											<Divider />
 										</div>
 										{isObjectEmpty(friendData) ? (
-											<div>Search for friends by users</div>
+											<div style={{ textAlign: 'center', marginTop: '20px' }}>Search for friends by username</div>
 										) : (
 											<FriendsList userData={friendData} />
 										)}
