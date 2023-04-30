@@ -76,7 +76,7 @@ export default function Profile(props) {
 
     
     function removeFromFollowings(userId, followId) {
-      fetch('/api/followings', {
+      fetch(`http://${config.server_host}:${config.server_port}/remove_friendlist`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
@@ -114,7 +114,7 @@ export default function Profile(props) {
           <Button variant="contained" color="primary" onClick={() => addToFollowings(userId, searchId)}>
             Add To Friends List
           </Button>
-          <Button variant="contained" color="secondary">
+          <Button variant="contained" color="secondary" onClick={() => removeFromFollowings(userId, searchId)}>
             Remove From Friends List
           </Button>
         </div>
