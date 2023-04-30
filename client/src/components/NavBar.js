@@ -1,6 +1,7 @@
 import { AppBar, Container, Toolbar, Button, Typography } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import theme from '../theme';
+import { useState, useEffect } from 'react';
 
 const WebsiteHome = ({ href, text }) => {
   return (
@@ -80,14 +81,23 @@ const Profile = ({ href, text }) => {
   );
 };
 
-export default function NavBar() {
+export default function NavBar(props) {
+
+  const [userId, setUserId] = useState(props.user_id);
+
+  useEffect(() => {
+    setUserId(props.user_id);
+  }, [props.user_id]);
+
   return (
     <>
       <AppBar position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters style={{ display: 'flex', justifyContent: 'space-between' }}>
             <WebsiteHome href="/" text="  FLIXFINDER" />
-            <Profile href="/profile" text="PROFILE" />
+            {
+            (userId === "" || userId === null) ? (<Profile href="/login" text="LOGIN" />) : (<Profile href="/profile" text="PROFILE" />)
+            }
           </Toolbar>
           <Toolbar disableGutters sx={{ display: 'flex', gap: 0 }}>
             <NavText href="/" text="HOME" />
