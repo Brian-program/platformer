@@ -11,8 +11,8 @@ const config = require('../config.json');
 
 export default function CommunityPage(props) {
     const [userId, setUserId]  = useState(props.user_id);
-    // const userId = "iamandal";
-    console.log(props.user_id);
+
+	console.log(props.user_id);
     const [friendData, setFriendData] = useState([]);
     const [searchUser, setSearchUser] = useState('');
     const [searchData, setSearchData] = useState([]);
@@ -48,6 +48,10 @@ export default function CommunityPage(props) {
     function isObjectEmpty(obj) {
         return Object.keys(obj).length === 0;
     }
+	
+	function isLoggedIn(userId) {
+		return userId !== "";
+	  }
 
     return (
 			<>
@@ -85,11 +89,15 @@ export default function CommunityPage(props) {
 										<h2 style={{fontWeight: 500}}>MY FRIENDS</h2>
 											<Divider />
 										</div>
-										{isObjectEmpty(friendData) ? (
-											<div>Search for friends by users</div>
-										) : (
-											<FriendsList userData={friendData} />
-										)}
+										{isLoggedIn(userId) ? (
+											isObjectEmpty(friendData) ? (
+												<div style={{ textAlign: 'center', marginTop: '20px' }}>Search for friends by username</div>
+											) : (
+												<FriendsList userData={friendData} />
+											)
+											) : (
+											<div style={{ textAlign: 'center', marginTop: '20px' }}>Log in to view your friends</div>
+											)}
 									</CardContent>
 								</Card>
             </div>

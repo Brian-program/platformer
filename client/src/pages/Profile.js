@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container } from "@mui/system";
 import { Typography, Button } from '@mui/material';
-
+import { useNavigate } from 'react-router-dom';
 
 import MovieGrid from "../components/MovieGrid";
 
@@ -10,13 +10,13 @@ const config = require('../config.json');
 
 export default function Profile(props) {
 
-    //const [loginId, setLoginId] = useState(props.login_id); to set login, but don't need here
     const [userId, setUserId] = useState(props.user_id);
+    const [watchlistData, setWatchlistData] = useState([]);
+    const [friend, setFriend] = useState([]);
+
     const { searchId } = useParams();
 
-    const [watchlistData, setWatchlistData] = useState([]);
-
-    const [friend, setFriend] = useState([]);
+    const navigate = useNavigate();
 
     console.log(userId);
 
@@ -95,6 +95,17 @@ export default function Profile(props) {
       <Container>
         <Typography variant="h3" align="center" gutterBottom>
           <b>Profile : {isSearchIdNotNull(searchId) ? searchId : userId}</b>
+          {
+            (!isSearchIdNotNull(searchId) && isLoggedIn(userId)) ? (
+              <Button variant="contained" color="primary" 
+                onClick={() => {
+                  // resetUser();
+                  navigate('/logout');
+                }}>
+                LOGOUT
+              </Button>
+            ) : (<></>)
+          }
         </Typography>
 
         {

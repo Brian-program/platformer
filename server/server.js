@@ -31,6 +31,7 @@ app.get('getUserMovie/:userId/:titleId', routes.getUserMovie);
 //post methods
 app.post('/add_friendlist', routes.add_friendlist);
 app.post('/add_watchlist', routes.add_watchlist);
+app.post('/add_user', routes.add_user);
 
 //delete methods
 app.delete('/remove_friendlist', routes.remove_friendlist);

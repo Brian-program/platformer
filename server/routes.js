@@ -351,7 +351,7 @@ const advanced_search = async function(req, res) {
         startYear >= ${yearMin} AND startYear <= ${yearMax} AND
         duration >= ${durationMin} AND duration <= ${durationMax} AND
         (genres LIKE '%${genre1}%' AND genres LIKE '%${genre2}%' AND genres LIKE '%${genre3}%')
-        ORDER BY imdb.rating DESC
+        ORDER BY Netflix DESC, Hulu DESC, PrimeVideo DESC, DisneyPlus DESC, imdb.rating DESC
     `, (err, data) => {
         if (err || data.length === 0) {
         console.log(err);
@@ -452,7 +452,7 @@ const user_login = async function(req, res) {
   });
 }
 
-// POST
+// POST add to friendlist
 const add_friendlist = async function(req, res) {
   let body = '';
   req.on('data', chunk => {
@@ -463,6 +463,28 @@ const add_friendlist = async function(req, res) {
     connection.query(`
       INSERT INTO followings (userId, followId)
       VALUES ('${userId}', '${followId}')
+    `, (err, data) => {
+      if (err) {
+        console.log(err);
+        res.json({ success: false });
+      } else {
+        res.json({ success: true });
+      }
+    });
+  });
+}
+
+//POST add to users
+const add_user = async function(req, res) {
+  let body = '';
+  req.on('data', chunk => {
+    body += chunk.toString();
+  });
+  req.on('end', () => {
+    const { userId, password } = JSON.parse(body);
+    connection.query(`
+      INSERT INTO users (userId, password)
+      VALUES ('${userId}', '${password}')
     `, (err, data) => {
       if (err) {
         console.log(err);
@@ -565,6 +587,7 @@ module.exports = {
   add_friendlist,
   add_watchlist,
   remove_watchlist,
+  add_user,
 
   remove_friendlist,
 }
