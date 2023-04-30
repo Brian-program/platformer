@@ -12,36 +12,18 @@ const connection = mysql.createConnection({
 connection.connect((err) => err && console.log(err));
 
 
-// HOLD FOR NOW???
 const random = async function(req, res) {
-  // you can use a ternary operator to check the value of request query values
-  // which can be particularly useful for setting the default value of queries
-  // note if users do not provide a value for the query it will be undefined, which is falsey
-  const explicit = req.query.explicit === 'true' ? 1 : 0;
-
-  // Here is a complete example of how to query the database in JavaScript.
-  // Only a small change (unrelated to querying) is required for TASK 3 in this route.
   connection.query(`
-    SELECT *
-    FROM Songs
-    WHERE explicit <= ${explicit}
+    SELECT titleId
+    FROM akas
     ORDER BY RAND()
     LIMIT 1
   `, (err, data) => {
     if (err || data.length === 0) {
-      // if there is an error for some reason, or if the query is empty (this should not be possible)
-      // print the error message and return an empty object instead
       console.log(err);
       res.json({});
     } else {
-      // Here, we return results of the query as an object, keeping only relevant data
-      // being song_id and title which you will add. In this case, there is only one song
-      // so we just directly access the first element of the query results array (data)
-      // TODO (TASK 3): also return the song title in the response
-      res.json({
-        song_id: data[0].song_id,
-        title: data[0].title
-      });
+      res.json(data[0]);
     }
   });
 }
@@ -567,7 +549,7 @@ const remove_watchlist = async function(req, res) {
 }
 
 module.exports = {
-  // random,
+  random,
   movies,
   watchlist,
   getFriend,

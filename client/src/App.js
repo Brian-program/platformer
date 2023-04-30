@@ -10,6 +10,7 @@ import NavBar from './components/NavBar';
 import Profile from './pages/Profile';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
+import Random from './pages/Random';
 import MoviePage  from './pages/MoviePage';
 import AlbumInfoPage from './pages/AlbumInfoPage'
 import AdvancedSearch from './pages/AdvancedSearch'
@@ -38,6 +39,7 @@ export default function App() {
           <Route path="/albums/:album_id" element={<AlbumInfoPage />} />
           <Route path="/advanced_search/" element={<AdvancedSearch/>} />
           <Route path="/friendlist" element={<CommunityPage user_id={user_id}/>} />
+          <Route path="/random" element={<Random/>} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

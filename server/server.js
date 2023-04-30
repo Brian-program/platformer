@@ -9,6 +9,7 @@ app.use(cors({
 }));
 
 //get methods
+app.get('/random', routes.random);
 app.get('/movies/:titleId', routes.movies);
 app.get('/friendlist/:userId', routes.friendlist);
 app.get('/watchlist/:userId', routes.watchlist);

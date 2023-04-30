@@ -103,7 +103,7 @@ export default function NavBar(props) {
             <NavText href="/" text="HOME" />
             <NavText href="/advanced_search" text="ADVANCED SEARCH" />
             <NavText href="/friendlist" text="MY FRIENDS" />
-            <NavText href="/aboutUs" text="ABOUT US" />
+            <NavText href="/random" text="RANDOM" />
           </Toolbar>
         </Container>
       </AppBar>
