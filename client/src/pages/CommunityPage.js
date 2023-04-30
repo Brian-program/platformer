@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Container } from "@mui/system";
-import { Divider, Card, CardContent, TextField, Typography } from '@mui/material';
+import { Divider, Card, CardContent, Link, TextField, Typography } from '@mui/material';
+import { NavLink } from 'react-router-dom';
+
 import theme from '../theme';
 
 
@@ -96,7 +98,15 @@ export default function CommunityPage(props) {
 												<FriendsList userData={friendData} />
 											)
 											) : (
-											<div style={{ textAlign: 'center', marginTop: '20px' }}>Log in to view your friends</div>
+												<div style={{ textAlign: 'center', marginTop: '20px' }}>
+													<Typography variant="body1">
+														<Link component={NavLink} to="/login" style={{ textDecoration: 'underline', color: theme.palette.primary.main, marginRight: '5px' }}>
+														Login
+														</Link>
+														to view your friends.
+													</Typography>
+												</div>
+
 											)}
 									</CardContent>
 								</Card>
