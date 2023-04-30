@@ -22,7 +22,7 @@ function MoviePage(props) {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch(`http://www.omdbapi.com/?i=${movieId}&apikey=${API_KEY}`);
+      const response = await fetch(`http://www.omdbapi.com/?i=${movieId}&apikey=${API_KEY}&plot=full`);
       const data = await response.json();
       setMovie(data);
       setPosterUrl(data.Poster);
@@ -84,7 +84,7 @@ function MoviePage(props) {
         />
 
         <p>Released: {movie.Year}</p>
-        <p>Description: {movie.Plot}</p>
+        <p>Synopsis: {movie.Plot}</p>
         <div style={{ position: 'absolute', top: '10px', right: '10px' }}>
           {
           (isLoggedIn(userId)) ? (
