@@ -2,15 +2,11 @@ import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import MovieRow from '../components/MovieRow';
 import * as React from 'react';
-import {TextField, Box, Slider, Button, Grid, Typography, Checkbox, FormGroup, FormControlLabel, Link} from '@mui/material';
+import {TextField, Box, Slider, Button, Grid, Typography, Checkbox,
+     FormGroup, FormControl, FormControlLabel, Link, InputLabel, MenuItem, Select} from '@mui/material';
 import MuiInput from '@mui/material/Input';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import { styled } from '@mui/material/styles'; 
 import { DataGrid } from '@mui/x-data-grid';
-
 
 
 const config = require('../config.json');
@@ -180,17 +176,19 @@ export default function App() {
         console.log('Query output: ', data);
     };
     const columns = [
+        { field: 'image', headerName: 'Image'},
         { field: 'title', headerName: 'Title', width: 300, renderCell: (params) => (
             <Link onClick={() => setSelectedTitleId(params.row.titleId)}>{params.value}</Link>
         ) },
-        { field: 'duration', headerName: 'Duration' },
-        { field: 'plays', headerName: 'Plays' },
-        { field: 'danceability', headerName: 'Danceability' },
-        { field: 'energy', headerName: 'Energy' },
-        { field: 'valence', headerName: 'Valence' },
-        { field: 'tempo', headerName: 'Tempo' },
-        { field: 'key_mode', headerName: 'Key' },
-        { field: 'explicit', headerName: 'Explicit' },
+        { field: 'startYear', headerName: 'Release Year' },
+        { field: 'endYear', headerName: 'End Year' },
+        { field: 'rating', headerName: 'Rating' },
+        { field: 'duration', headerName: 'Duration (minutes)'},
+        { field: 'genre', headerName: 'Genres'},
+        { field: 'Netflix', headerName: 'Netflix' },
+        { field: 'Hulu', headerName: 'Hulu' },
+        { field: 'PrimeVideo', headerName: 'Amazon Prime Video' },
+        { field: 'DisneyPlus', headerName: 'Disney+' }
       ]
 
     return (
@@ -399,6 +397,15 @@ export default function App() {
             <h2></h2>
             <Button variant="contained" onClick={handleSearch}>SEARCH </Button>
             </div>
+            <h2>Results</h2>
+            <DataGrid
+                rows={data}
+                columns={columns}
+                pageSize={pageSize}
+                rowsPerPageOptions={[5, 10, 25]}
+                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+                autoHeight
+            />
         </div>
     );
 }
