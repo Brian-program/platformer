@@ -29,6 +29,7 @@ app.get('/getFriend/:userId/:followId', routes.getFriend);
 
 //post methods
 app.post('/add_friendlist', routes.add_friendlist);
+app.post('/add_user', routes.add_user);
 
 //delete methods
 app.delete('/remove_friendlist', routes.remove_friendlist);

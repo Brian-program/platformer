@@ -435,7 +435,7 @@ const user_login = async function(req, res) {
   });
 }
 
-// POST
+// POST add to friendlist
 const add_friendlist = async function(req, res) {
   let body = '';
   req.on('data', chunk => {
@@ -446,6 +446,28 @@ const add_friendlist = async function(req, res) {
     connection.query(`
       INSERT INTO followings (userId, followId)
       VALUES ('${userId}', '${followId}')
+    `, (err, data) => {
+      if (err) {
+        console.log(err);
+        res.json({ success: false });
+      } else {
+        res.json({ success: true });
+      }
+    });
+  });
+}
+
+//POST add to users
+const add_user = async function(req, res) {
+  let body = '';
+  req.on('data', chunk => {
+    body += chunk.toString();
+  });
+  req.on('end', () => {
+    const { userId, password } = JSON.parse(body);
+    connection.query(`
+      INSERT INTO users (userId, password)
+      VALUES ('${userId}', '${password}')
     `, (err, data) => {
       if (err) {
         console.log(err);
@@ -498,6 +520,7 @@ module.exports = {
   user_login,
 
   add_friendlist,
+  add_user,
 
   remove_friendlist,
 }
