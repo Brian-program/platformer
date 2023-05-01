@@ -3,41 +3,54 @@ import { Button, Paper, Typography} from '@mui/material';
 import { useParams } from 'react-router-dom';
 import theme from '../theme';
 
+//API key for OMDB API and import config file
 const API_KEY = 'd2e25fe6';
 const config = require('../config.json');
 
 function MoviePage(props) {
+  // State variables to store user ID, movie data, poster URL and detailed movie information
   const [userId, setUserId] = useState(props.user_id);
   const [movie, setMovie] = useState({});
   const [movieData, setMovieData] = useState({});
   const [posterUrl, setPosterUrl] = useState('');
+  //Get movie ID from the URL params
   const { movieId } = useParams();
 
+   //Function to check if movie data is present
   function isMoviePresent(movie) {
     return movie.length !== 0;
   }
 
+  //Function to check if user is logged in
   function isLoggedIn(userId) {
     return userId !== "";
   }
 
+  //UseEffect hook to fetch movie data from OMDb API and server
   useEffect(() => {
     async function fetchData() {
+      //Fetch movie data from OMDb API
       const response = await fetch(`http://www.omdbapi.com/?i=${movieId}&apikey=${API_KEY}&plot=full`);
       const data = await response.json();
+      //Set movie state variable
       setMovie(data);
+      //Set movie poster URL state variable
       setPosterUrl(data.Poster);
     }
+    //Call fetchData function
     fetchData();
+    //Fetch movie data from server
     fetch(`http://${config.server_host}:${config.server_port}/movies/${movieId}`)
             .then(res => res.json())
             .then(resJson => setMovieData(resJson));
   }, [movieId]);
 
-
+  //Function to add a movie to the user's watchlist
   function addToWatchlist(userId, titleId) {
 
+     //Check if movie data is present
     if(isMoviePresent(movie)) {
+      //Make a POST request to add the movie to the watchlist
       fetch(`http://${config.server_host}:${config.server_port}/add_watchlist`, {
         method: 'POST',
         headers: {
@@ -54,8 +67,11 @@ function MoviePage(props) {
     }
   }    
 
+  //Function to remove a movie from the user's watchlist
   function removeFromWatchlist(userId, titleId) {
+     //Check if movie data is present
     if(isMoviePresent(movie)) {
+      //Make a DELETE request to remove the movie from the watchlist
       fetch(`http://${config.server_host}:${config.server_port}/remove_watchlist`, {
         method: 'DELETE',
         headers: {
@@ -72,26 +88,22 @@ function MoviePage(props) {
     }
   }
 
-  
+  //Functions to check if the movie is available on various streaming services
   const onNetflix = (movieData) => {
     return movieData.Netflix === null ? false : movieData.Netflix === 1;
   };
-  console.log("netflix", onNetflix(movieData));
   
   const onHulu = (movieData) => {
     return movieData.Hulu === null ? false : movieData.Hulu === 1;
   };
-  console.log("hulu", onHulu(movieData));
   
   const onDisney = (movieData) => {
     return movieData.DisneyPlus === null ? false : movieData.DisneyPlus === 1;
   };
-  console.log("disney", onDisney(movieData));
   
   const onPrime = (movieData) => {
     return movieData.PrimeVideo === null ? false : movieData.PrimeVideo === 1;
   };
-  console.log("prime", onPrime(movieData));
   
 
   return (
