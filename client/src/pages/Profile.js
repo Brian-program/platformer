@@ -12,22 +12,20 @@ export default function Profile(props) {
     const [userId, setUserId] = useState(props.user_id);
     const [watchlistData, setWatchlistData] = useState([]);
     const [friend, setFriend] = useState([]);
-
     const { searchId } = useParams();
-
     const navigate = useNavigate();
 
-    //returns true is searchId is not null
+    // returns true is searchId is not null
     function isSearchIdNotNull(searchId) {
       return typeof searchId !== 'undefined';
     }
 
-    //checks if user is logged in
+    // checks if user is logged in
     function isLoggedIn(userId) {
       return userId !== "";
     }
 
-    //check if the current searched profile is a friend
+    // check if the current searched profile is a friend
     function isNotFriends(friend) {
       return friend.length === 0;
     }
@@ -50,12 +48,12 @@ export default function Profile(props) {
       }
     }, [searchId, userId]);
 
-    //checks if data pulled is not empty
+    // checks if data pulled is not empty
     function isNotEmpty(array) {
       return array.length !== 0;
     }
 
-    //add friend to friendlist and then navigate to friends page
+    // add friend to friendlist and then navigate to friends page
     function addToFollowings(userId, followId) {
       if(isNotFriends(friend)) {
         fetch(`http://${config.server_host}:${config.server_port}/add_friendlist`, {
@@ -75,7 +73,7 @@ export default function Profile(props) {
       }
     }    
 
-    //delete friend from friendlist and then navigate to friends page
+    // delete friend from friendlist and then navigate to friends page
     function removeFromFollowings(userId, followId) {
       fetch(`http://${config.server_host}:${config.server_port}/remove_friendlist`, {
         method: 'DELETE',
@@ -93,7 +91,7 @@ export default function Profile(props) {
       navigate("/friendlist");
     }
 
-    //returns a profile if logged in which includes nice UI for the watchlist and buttons to add/remove if user is not yourself
+    // returns a profile if logged in which includes nice UI for the watchlist and buttons to add/remove if user is not yourself
     return (
       <Container>
         <Typography variant="h3" align="left" display="flex" alignItems="center" gutterBottom>

@@ -18,8 +18,8 @@ export default function UserList({ userData }) {
     <Box
       style={{
         display: 'flex',
-        height: '500px', // Set the desired height of the cell
-        overflowY: 'auto', // Enable vertical scrolling
+        height: '500px',
+        overflowY: 'auto',
       }}
     >
       <Box style={{ display: 'flex', flex: 1 }}>

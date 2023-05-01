@@ -11,8 +11,8 @@ const connection = mysql.createConnection({
 });
 connection.connect((err) => err && console.log(err));
 
-//GET random movie/tv show
-//returns a generated random titleId that exists in the akas table
+// GET random movie/tv show
+// returns a generated random titleId that exists in the akas table
 const random = async function(req, res) {
   connection.query(`
     SELECT titleId
@@ -30,8 +30,9 @@ const random = async function(req, res) {
 }
 
 // GET /movie/:title_id
+// given titleId, returns all info with that titleId
+
 const movies = async function(req, res) {
-  //given titleId, returns all info with that titleId
   const titleId = req.params.titleId;
   connection.query(`
   SELECT titleId, selected_movie.title as title, rating, startYear, endYear, duration, genre, Netflix, Hulu, PrimeVideo, DisneyPlus
@@ -60,7 +61,8 @@ const movies = async function(req, res) {
 
 
 // GET /friendlist/:userId (aka followingList)
-//given an input userId, this will return all followIds from the following table 
+// given an input userId, this will return all followIds from the following table 
+
 const friendlist = async function(req, res) {
   const userId = req.params.userId;
   connection.query(`
@@ -78,6 +80,7 @@ const friendlist = async function(req, res) {
 }
 
 //given two inputs, userId and followId, this will return the followId if it exists 
+
 const getFriend = async function(req, res) {
   const userId = req.params.userId;
   const followId = req.params.followId;
@@ -97,6 +100,7 @@ const getFriend = async function(req, res) {
 
 // GET /watchlist/:userId
 //given the input userId, this will return userId, the titleId, and the title after optimizing userId and joining on the table akas
+
 const watchlist = async function(req, res) {
   const userId = req.params.userId;
   connection.query(`
@@ -113,8 +117,9 @@ const watchlist = async function(req, res) {
   });
 }
 
-//return the top ten distinct titleId and title for all movies/TV shows from the database
+// return the top ten distinct titleId and title for all movies/TV shows from the database
 // GET /top_movies
+
 const top_movies = async function(req, res) {
   connection.query(`
     SELECT titleId, title
@@ -140,7 +145,7 @@ const top_movies = async function(req, res) {
 }
 
 // GET /top_netflix
-//return the top ten rated titleId and title for all movies on Netflix
+// return the top ten rated titleId and title for all movies on Netflix
 
 const top_netflix = async function(req, res) {
   connection.query(`
@@ -168,7 +173,7 @@ const top_netflix = async function(req, res) {
 }
 
 // GET /top_hulu
-//return the top ten rated titleId and title for all movies on Hulu.
+// return the top ten rated titleId and title for all movies on Hulu.
 
 const top_hulu = async function(req, res) {
   connection.query(`
@@ -197,7 +202,7 @@ const top_hulu = async function(req, res) {
 }
 
 // GET /top_DisneyPlus
-//return the top ten rated titleId and title for all movies on Disney+.
+// return the top ten rated titleId and title for all movies on Disney+.
 
 const top_DisneyPlus = async function(req, res) {
   connection.query(`
@@ -226,7 +231,7 @@ const top_DisneyPlus = async function(req, res) {
 }
 
 // GET /top_PrimeVideo
-//return the top ten rated  titleId and title for all movies on Prime.
+// return the top ten rated  titleId and title for all movies on Prime.
 
 const top_PrimeVideo = async function(req, res) {
   connection.query(`
@@ -255,7 +260,7 @@ const top_PrimeVideo = async function(req, res) {
 }
 
 // GET /simple_search/:title
-//return top 5 queries given an input, this was never used though
+// return top 5 queries given an input, this was never used though
 
 const simple_search = async function(req, res) {
   const title = req.params.title;
@@ -282,8 +287,8 @@ const simple_search = async function(req, res) {
   });
 }
 
-//GET /advanced_search
-//given inputs (year, up to 3 genres, duration, rating, platforms, title) that will be filtered by, this will return all information based on the input conditions (inputs will be done via queries)
+// GET /advanced_search
+// given inputs (year, up to 3 genres, duration, rating, platforms, title) that will be filtered by, this will return all information based on the input conditions (inputs will be done via queries)
 
 const advanced_search = async function(req, res) {
   const title = req.query.title ?? '';
@@ -363,7 +368,7 @@ const advanced_search = async function(req, res) {
 }
 
 // GET /all_users
-//returns all userIds from the table users
+// returns all userIds from the table users
 
 const all_users = async function(req, res) {
   //returns a list of userIds from searching for a specific username
@@ -381,10 +386,9 @@ const all_users = async function(req, res) {
 }
 
 // GET /search_user/:userId
-//returns a list of userIds from searching for a specific username (searching for users)
+// returns a list of userIds from searching for a specific username (searching for users)
 
 const search_user = async function(req, res) {
-  //returns a list of userIds from searching for a specific username
   const userId = req.params.userId;
   connection.query(`
     SELECT userId
@@ -401,10 +405,9 @@ const search_user = async function(req, res) {
 }
 
 // GET /user_login/:userId
-//given a username, returns a password if the userId exists.
+// given a username, returns a password if the userId exists.
 
 const user_login = async function(req, res) {
-  //returns a password for a specific userId
   const username = req.params.username;
   connection.query(`
     SELECT password
@@ -421,7 +424,7 @@ const user_login = async function(req, res) {
 }
 
 // POST add to friendlist
-//A POST method that takes in a parsed json and inserts the userId and followId into the followings table (friendlist)
+// A POST method that takes in a parsed json and inserts the userId and followId into the followings table (friendlist)
 const add_friendlist = async function(req, res) {
   let body = '';
   req.on('data', chunk => {
@@ -443,8 +446,8 @@ const add_friendlist = async function(req, res) {
   });
 }
 
-//POST add to users
-//A POST method that takes in a parsed json and inserts the userId and password into the users table (add friend to friendlist)
+// POST add to users
+// A POST method that takes in a parsed json and inserts the userId and password into the users table (add friend to friendlist)
 
 const add_user = async function(req, res) {
   let body = '';
@@ -467,8 +470,8 @@ const add_user = async function(req, res) {
   });
 }
 
-//DELETE user from friendslist
-//A DELETE method that takes in a parsed json and deletes the userId and followId from the followings table  (remove friend from friendlist).
+// DELETE user from friendslist
+// A DELETE method that takes in a parsed json and deletes the userId and followId from the followings table  (remove friend from friendlist).
 
 const remove_friendlist = async function(req, res) {
   let body = '';
@@ -492,7 +495,7 @@ const remove_friendlist = async function(req, res) {
 }
 
 // POST add movie to one's watchlist
-//A POST method that takes in a parsed json and inserts the userId and titleId into the watchlist table (add movie to watchlist)
+// A POST method that takes in a parsed json and inserts the userId and titleId into the watchlist table (add movie to watchlist)
 
 const add_watchlist = async function(req, res) {
   console.log("add watchlist");
@@ -517,8 +520,8 @@ const add_watchlist = async function(req, res) {
   });
 }
 
-//DELETE remove movie from one's watchlist
-//A DELETE method that takes in a parsed json and deletes the userId and titleId from the watchlist table (remove movie from watchlist)
+// DELETE remove movie from one's watchlist
+// A DELETE method that takes in a parsed json and deletes the userId and titleId from the watchlist table (remove movie from watchlist)
 
 const remove_watchlist = async function(req, res) {
   let body = '';

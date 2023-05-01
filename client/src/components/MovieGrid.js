@@ -10,10 +10,10 @@ const API_KEY = 'd2e25fe6';
 
 export default function MovieGrid({moviesData, movieId}) {
 
-  //gets the poster image url
+  // gets the poster image url
   const [posterUrls, setPosterUrls] = useState({});
   
-  //fetches the data from omdb api and places it into the grid
+  // fetches the data from omdb api and places it into the grid
   useEffect(() => {
     async function fetchData() {
       // Promise.all to fetch all movie posters in parallel
@@ -31,11 +31,11 @@ export default function MovieGrid({moviesData, movieId}) {
       setPosterUrls(newPosterUrls);
     }
 
-    //calls the defined functon above
+    // calls the defined functon above
     fetchData();
   }, [moviesData]);
 
-  //popout grid of the entire watchlist
+  // popout grid of the entire watchlist for profile page
   return (
   <Paper variant="outlined" sx={{ backgroundColor: theme.palette.secondary.main}}>
   <Paper variant="outlined" sx={{ backgroundColor: theme.palette.secondary.main }}>

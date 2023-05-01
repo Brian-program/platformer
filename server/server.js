@@ -8,7 +8,7 @@ app.use(cors({
   origin: '*',
 }));
 
-//get methods
+// get methods
 app.get('/random', routes.random);
 app.get('/movies/:titleId', routes.movies);
 app.get('/friendlist/:userId', routes.friendlist);
@@ -25,16 +25,16 @@ app.get('/all_users', routes.all_users);
 app.get('/user_login/:username', routes.user_login);
 app.get('/getFriend/:userId/:followId', routes.getFriend);
 
-//post methods
+// post methods
 app.post('/add_friendlist', routes.add_friendlist);
 app.post('/add_watchlist', routes.add_watchlist);
 app.post('/add_user', routes.add_user);
 
-//delete methods
+// delete methods
 app.delete('/remove_friendlist', routes.remove_friendlist);
 app.delete('/remove_watchlist', routes.remove_watchlist);
 
-//format
+// format
 app.listen(config.server_port, () => {
   console.log(`Server running at http://${config.server_host}:${config.server_port}/`)
 });
