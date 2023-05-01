@@ -15,8 +15,6 @@ import AdvancedSearch from './pages/AdvancedSearch'
 import CommunityPage from "./pages/CommunityPage";
 import CreateAccount from "./pages/CreateAccount";
 
-
-// edit pages for tabs in component header -- home, community, find, search, profile/login
 export default function App() {
 
   const [user_id, setUser_id] = useState("");

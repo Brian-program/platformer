@@ -8,9 +8,8 @@ import { styled } from '@mui/material/styles';
 import { DataGrid } from '@mui/x-data-grid';
 import theme from '../theme';
 
-
-
 const config = require('../config.json');
+
 export default function App() {
     //inputs for query
     const [searchText, setSearchText] = useState('');
@@ -28,11 +27,19 @@ export default function App() {
         genre2: '',
         genre3: '',
     });
+    // Since the streaming services in our database is indicated by 1 (meaning the service has the content) or 0 (does not have), 
+    // and the checkboxes from MUI set check the values as boolean values, these ternary statments help convert the boolean values
+    // to integer values that will ultimately be used in the query
+    const[netflix, setNetflix] = useState(streamingServices.netflix ? 1 : 0);
+    const[hulu, setHulu] = useState(streamingServices.hulu ? 1 : 0);
+    const[disney, setDisney] = useState(streamingServices.disneyPlus ? 1 : 0);
+    const[prime, setPrime] = useState(streamingServices.primeVideo ? 1 : 0);
+
     //data for query output
     const [pageSize, setPageSize] = useState(10);
     const [data, setData] = useState([]);
 
-
+    //Range Sliders and Input Boxes referenced from MUI: https://mui.com/material-ui/react-slider/
 
     //used within slider components
     function valuetext(value) {
@@ -89,7 +96,7 @@ export default function App() {
     const handleDuration2Blur = () => {
         if (duration[1] < duration[0]) {
             setDuration([duration[0], duration[0]]);
-        } else if (year[1] > 1320) {
+        } else if (duration[1] > 1320) {
             setDuration([duration[0], 1320]);
         }
     };
@@ -120,7 +127,7 @@ export default function App() {
         }
     };
 
-
+    // Auto queries all movies from database when user switches to this page.
     useEffect(() => {
         fetch(`http://${config.server_host}:${config.server_port}/advanced_search`)
           .then(res => res.json())
@@ -130,13 +137,8 @@ export default function App() {
           });
       }, []);
 
-    const[netflix, setNetflix] = useState(streamingServices.netflix ? 1 : 0);
-    const[hulu, setHulu] = useState(streamingServices.hulu ? 1 : 0);
-    const[disney, setDisney] = useState(streamingServices.disneyPlus ? 1 : 0);
-    const[prime, setPrime] = useState(streamingServices.primeVideo ? 1 : 0);
-
     const handleSearch = () => {
-        // handle search functionality
+        // handle search functionality with user inputs
         fetch(`http://${config.server_host}:${config.server_port}/advanced_search?title=${searchText}` +
         `&durationMin=${duration[0]}&durationMax=${duration[1]}` +
         `&yearMin=${year[0]}&yearMax=${year[1]}` +
@@ -157,6 +159,8 @@ export default function App() {
             setData(contentWithId);
         });
     };
+
+    //Columns for DataGrid component
     const columns = [
         { field: 'title', headerName: 'Title', width: 300, renderCell: (params) => (
             <Link component={NavLink} to={`/movies/${params.row.titleId}`} style={{ textDecoration: 'none', color: 'blue' }}>
@@ -167,6 +171,9 @@ export default function App() {
         { field: 'rating', headerName: 'Rating' },
         { field: 'duration', headerName: 'Duration'},
         { field: 'genres', headerName: 'Genres', width: 200},
+        // For the streaming services, since the imdb database we used was larger than the kaggle dataset for the content
+        // on streaming services, some of these values would be NULL when we LEFT JOINed in the query. Thus, this sets all the 
+        // null values to 'No', and also 0 to 'No' and 1 to 'Yes' for more friendly UI
         { field: 'Netflix', headerName: 'Netflix', renderCell: (params) => (
         { field: 'Netflix', headerName: 'Netflix' },
             params.row.Netflix === 1 ? 'Yes' : 'No'
@@ -185,6 +192,7 @@ export default function App() {
             ) }
       ]
 
+    // Many components used were found in the MUI component library docs
     return (
         <div style = {{width: '100%', height: '100%', fontFamily: 'sans-serif'}}>
         <Paper style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: theme.palette.tertiary.main, width: "80%", margin: "auto", borderRadius: "20px", boxShadow: "0px 2px 10px rgba(0, 0, 0, .1)" }}>
@@ -193,7 +201,7 @@ export default function App() {
             style={{ width: '70%', height: '60px', fontSize: '28px' , backgroundColor: 'white', padding: '2px'}} onChange={(e) => setSearchText(e.target.value)}/>
             <div style={{ display: 'flex', width: '80%', justifyContent: 'space-between', alignItems: 'start', marginTop: '50px' }}>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <h2></h2>
+                    <h2> </h2>
                     {/* YEAR SLIDER */}
                     <Box sx={{ width: 300 }}>
                     <Typography id="input-slider" gutterBottom>
@@ -209,7 +217,6 @@ export default function App() {
                                 valueLabelDisplay="auto"
                                 getAriaValueText={valuetext}
                                 color="secondary"
-                                // size ='small'
                             />
                         </Grid>
                         <Grid item>
@@ -345,6 +352,7 @@ export default function App() {
                     </Grid>
                     </Box>
                 </div>
+                {/* Streaming Services checkboxes */}
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <h2>Streaming Services</h2>
                     <FormGroup>
@@ -362,16 +370,17 @@ export default function App() {
                             setDisney(!streamingServices.disneyPlus ? 1 : 0)}}/>} label="Disney+" />
                     </FormGroup>
                 </div>
-                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                {/* 3 genre input checkboxes */}
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <h2>Genre</h2>
                     <TextField id="filled-basic" label="Genre 1" variant="filled" onChange={(e) => setGenre({...genres, genre1: e.target.value})}/>
                     <TextField id="filled-basic" label="Genre 2" variant="filled" onChange={(e) => setGenre({...genres, genre2: e.target.value})}/>
                     <TextField id="filled-basic" label="Genre 3" variant="filled" onChange={(e) => setGenre({...genres, genre3: e.target.value})}/>
                 </div>
             </div>
-            <h2></h2>
+            <h2> </h2>
             <Button variant="contained" onClick={handleSearch}>SEARCH </Button>
-            <h2></h2>
+            <h2> </h2>
             </Paper>
             <h2 style={{ marginLeft: '120px' }}>Results</h2>
             <div style={{ display: 'flex', justifyContent: 'center', margin: '0 auto', marginBottom: '20px', maxWidth: '1202px' }}>
