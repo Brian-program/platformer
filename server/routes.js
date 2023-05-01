@@ -129,10 +129,11 @@ const top_movies = async function(req, res) {
       basics.startYear, 
       basics.endYear, 
       basics.runtimeMinutes AS duration, 
-      basics.genres AS genre
+      basics.genres AS genre,
+      ratings.numVotes as numVotes
       FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
       ) imdb
-    ORDER BY rating DESC
+    ORDER BY (rating * numVotes) DESC
     LIMIT 10
   `, (err, data) => {
     if (err || data.length === 0) {
@@ -156,11 +157,12 @@ const top_netflix = async function(req, res) {
       basics.startYear, 
       basics.endYear, 
       basics.runtimeMinutes AS duration, 
-      basics.genres AS genre
+      basics.genres AS genre,
+      ratings.numVotes as numVotes
       FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
       ) imdb LEFT JOIN kaggle ON imdb.title = kaggle.title
   WHERE Netflix = 1
-  ORDER BY RottenTomatoes DESC
+  ORDER BY (rating * numVotes) DESC
   LIMIT 10
   `, (err, data) => {
     if (err || data.length === 0) {
@@ -184,12 +186,13 @@ const top_hulu = async function(req, res) {
       basics.startYear, 
       basics.endYear, 
       basics.runtimeMinutes AS duration, 
-      basics.genres AS genre
+      basics.genres AS genre,
+      ratings.numVotes as numVotes
       FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
       ) imdb 
     LEFT JOIN kaggle ON imdb.title = kaggle.title
     WHERE Hulu = 1
-    ORDER BY RottenTomatoes DESC
+    ORDER BY (rating * numVotes) DESC
     LIMIT 10
   `, (err, data) => {
     if (err || data.length === 0) {
@@ -213,12 +216,13 @@ const top_DisneyPlus = async function(req, res) {
       basics.startYear, 
       basics.endYear, 
       basics.runtimeMinutes AS duration, 
-      basics.genres AS genre
+      basics.genres AS genre,
+      ratings.numVotes as numVotes
       FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
       ) imdb
     LEFT JOIN kaggle ON imdb.title = kaggle.title
     WHERE DisneyPlus = 1
-    ORDER BY RottenTomatoes DESC
+    ORDER BY (rating * numVotes) DESC
     LIMIT 10
   `, (err, data) => {
     if (err || data.length === 0) {
@@ -242,12 +246,13 @@ const top_PrimeVideo = async function(req, res) {
       basics.startYear, 
       basics.endYear, 
       basics.runtimeMinutes AS duration, 
-      basics.genres AS genre
+      basics.genres AS genre,
+      ratings.numVotes as numVotes
       FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
       ) imdb
     LEFT JOIN kaggle ON imdb.title = kaggle.title
     WHERE PrimeVideo = 1
-    ORDER BY RottenTomatoes DESC
+    ORDER BY (rating * numVotes) DESC
     LIMIT 10
   `, (err, data) => {
     if (err || data.length === 0) {
