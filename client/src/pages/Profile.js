@@ -95,37 +95,34 @@ export default function Profile(props) {
 
     return (
       <Container>
-        <Typography variant="h3" align="center" gutterBottom>
-          <b>Profile : {isSearchIdNotNull(searchId) ? searchId : userId}</b>
-          {
-            (!isSearchIdNotNull(searchId) && isLoggedIn(userId)) ? (
-              <Button variant="contained" color="primary" 
-                onClick={() => {
-                  // resetUser();
-                  navigate('/logout');
-                }}>
-                LOGOUT
-              </Button>
-            ) : (<></>)
-          }
-        </Typography>
+        <Typography variant="h3" align="left" display="flex" alignItems="center" gutterBottom>
+  <b>{isSearchIdNotNull(searchId) ? searchId : userId}'s Watchlist</b>
+  <div style={{ marginLeft: 'auto' }}>
+    {!isSearchIdNotNull(searchId) && isLoggedIn(userId) && (
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => {
+          // resetUser();
+          navigate('/logout');
+        }}
+      >
+        LOGOUT
+      </Button>
+    )}
+    {(isSearchIdNotNull(searchId) && isLoggedIn(userId)) && (
+      <>
+        <Button variant="contained" color="primary" onClick={() => addToFollowings(userId, searchId)}>
+          Add To Friends List
+        </Button>
+        <Button variant="contained" color="tertiary" onClick={() => removeFromFollowings(userId, searchId)}>
+          Remove From Friends List
+        </Button>
+      </>
+    )}
+  </div>
+</Typography>
 
-        {
-          (isSearchIdNotNull(searchId) && isLoggedIn(userId)) ? (
-          <div style={{ display: "flex" }}>
-          <Button variant="contained" color="primary" onClick={() => addToFollowings(userId, searchId)}>
-            Add To Friends List
-          </Button>
-          <Button variant="contained" color="secondary" onClick={() => removeFromFollowings(userId, searchId)}>
-            Remove From Friends List
-          </Button>
-        </div>
-        ) : <></>
-        }
-
-        <Typography variant="h4" align="left" gutterBottom>
-          <b>Watchlist</b>
-        </Typography>
 
         {isNotEmpty(watchlistData) ? (
           <MovieGrid moviesData = {watchlistData}/>

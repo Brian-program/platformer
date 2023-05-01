@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import * as React from 'react';
-import {TextField, Box, Slider, Button, Grid, Typography, Checkbox,
+import {TextField, Box, Slider, Button, Grid, Typography, Checkbox, Paper,
      FormGroup, FormControlLabel, Link} from '@mui/material';
 import MuiInput from '@mui/material/Input';
 import { styled } from '@mui/material/styles'; 
 import { DataGrid } from '@mui/x-data-grid';
+import theme from '../theme';
+
 
 
 const config = require('../config.json');
@@ -161,22 +163,34 @@ export default function App() {
               {params.row.title}</Link>
         ) },
         { field: 'startYear', headerName: 'Release Year' },
-        { field: 'endYear', headerName: 'End Year' },
+        { field: 'endYear', headerName: 'End Year', valueGetter: (params) => params.row.endYear || 'NA' },
         { field: 'rating', headerName: 'Rating' },
         { field: 'duration', headerName: 'Duration'},
         { field: 'genres', headerName: 'Genres', width: 200},
+        { field: 'Netflix', headerName: 'Netflix', renderCell: (params) => (
         { field: 'Netflix', headerName: 'Netflix' },
+            params.row.Netflix === 1 ? 'Yes' : 'No'
+        ) },
+        { field: 'Hulu', headerName: 'Hulu', renderCell: (params) => (
         { field: 'Hulu', headerName: 'Hulu' },
+            params.row.Hulu === 1 ? 'Yes' : 'No'
+            ) },
+        { field: 'PrimeVideo', headerName: 'Prime Video', renderCell: (params) => (
         { field: 'PrimeVideo', headerName: 'Prime Video' },
-        { field: 'DisneyPlus', headerName: 'Disney+' }
+            params.row.PrimeVideo === 1 ? 'Yes' : 'No'
+            ) },
+        { field: 'DisneyPlus', headerName: 'Disney+', renderCell: (params) => (
+        { field: 'DisneyPlus', headerName: 'Disney+' },
+            params.row.DisneyPlus === 1 ? 'Yes' : 'No'
+            ) }
       ]
 
     return (
         <div style = {{width: '100%', height: '100%', fontFamily: 'sans-serif'}}>
-            <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+        <Paper style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: theme.palette.tertiary.main, width: "80%", margin: "auto", borderRadius: "20px", boxShadow: "0px 2px 10px rgba(0, 0, 0, .1)" }}>
             <h1 style={{ marginTop: '50px' }}>Advanced Search</h1>
-            <TextField id="filled-basic" label="Search movies and TV shows..." variant="outlined" value={searchText}
-            style={{ width: '70%', height: '60px', fontSize: '28px' }} onChange={(e) => setSearchText(e.target.value)}/>
+            <TextField id="outlined-basic" label="Search movies and TV shows..." variant="outlined" value={searchText}
+            style={{ width: '70%', height: '60px', fontSize: '28px' , backgroundColor: 'white', padding: '2px'}} onChange={(e) => setSearchText(e.target.value)}/>
             <div style={{ display: 'flex', width: '80%', justifyContent: 'space-between', alignItems: 'start', marginTop: '50px' }}>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <h2></h2>
@@ -336,7 +350,7 @@ export default function App() {
                     <FormGroup>
                         <FormControlLabel control={<Checkbox onChange={(e) => 
                             {setStreamingServices({...streamingServices, netflix: !streamingServices.netflix})
-                            setNetflix(!streamingServices.netflix ? 1 : 0)}}/>} label="Netflix"/>
+                            setNetflix(!streamingServices.netflix ? 1 : 0)}}/> } label="Netflix" />
                         <FormControlLabel control={<Checkbox onChange={(e) => 
                             {setStreamingServices({...streamingServices, hulu: !streamingServices.hulu})
                             setHulu(!streamingServices.hulu ? 1 : 0)}}/>} label="Hulu" />
@@ -357,8 +371,10 @@ export default function App() {
             </div>
             <h2></h2>
             <Button variant="contained" onClick={handleSearch}>SEARCH </Button>
-            </div>
-            <h2>Results</h2>
+            <h2></h2>
+            </Paper>
+            <h2 style={{ marginLeft: '120px' }}>Results</h2>
+            <div style={{ display: 'flex', justifyContent: 'center', margin: '0 auto', marginBottom: '20px', maxWidth: '1202px' }}>
             <DataGrid
                 rows={data}
                 columns={columns}
@@ -367,6 +383,7 @@ export default function App() {
                 onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
                 autoHeight
             />
+            </div>
         </div>
     );
 }

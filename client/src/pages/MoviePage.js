@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Box, Container, Button } from '@mui/material';
+import { Button, Paper, Typography} from '@mui/material';
 import { useParams } from 'react-router-dom';
+import theme from '../theme';
 
 const API_KEY = 'd2e25fe6';
 const config = require('../config.json');
@@ -94,58 +95,164 @@ function MoviePage(props) {
   
 
   return (
-    <Container maxWidth="md">
-      <Box
-        p={3}
-        m={2}
-        style={{ background: 'white', borderRadius: '16px', border: '2px solid #000', position: 'relative' }}
-      >
-        
-        <h1>{movie.Title}</h1>
-        <img
-          src={posterUrl}
-          alt={`${movie.Title}`}
-          style={{ maxWidth: '100%' }}
-        />
+  
+    <Paper
+  variant="outlined"
+  sx={{
+    p: 3,
+    m: { xs: 2, md: 4 },
+    backgroundColor: theme.palette.tertiary.main,
+    borderRadius: '16px',
+    boxShadow: '0px 4px 10px rgba(0, 0, 0, 1)',
+    display: 'flex',
+    flexDirection: 'column',
+    outline: 'none',
+  }}
+>
+  <div style={{ display: 'flex', alignItems: 'flex-start', mt: 2 }}>
+    <img
+      src={posterUrl}
+      alt={`${movie.Title}`}
+      style={{ maxWidth: '50%', marginRight: '20px', alignSelf: 'flex-start' }}
+    />
 
-        <p>Released: {movie.Year}</p>
-        <p>Synopsis: {movie.Plot}</p>
-        <div style={{ position: 'absolute', top: '10px', right: '10px' }}>
-          {
-          (isLoggedIn(userId)) ? (
-            <div>
-              <Button variant="contained" color="primary" onClick = {() => addToWatchlist(userId, movieId)} style={{ margin: '5px' }}>
-                Add to Watchlist
-              </Button>
-            <Button variant="contained" color="secondary" onClick = {() => removeFromWatchlist(userId, movieId)} style={{ margin: '5px' }}>
-              Remove From Watchlist
-              </Button>
-            </div>
-            ) : <></> 
-          }
-          {
-            (onNetflix(movieData)) ? (
-              <p>Netflix</p>
-            ) : <></>
-          }
-          {
-            (onHulu(movieData)) ? (
-              <p>Hulu</p>
-            ) : <></>
-          }
-          {
-            (onDisney(movieData)) ? (
-              <p>Disney+</p>
-            ) : <></>
-          }
-          {
-            (onPrime(movieData)) ? (
-              <p>Prime Video</p>
-            ) : <></>
-          }
-        </div>
-      </Box>
-    </Container>
+    <div>
+      <Typography variant="h4" sx={{ fontWeight: 'bold', mt: 0 }}>
+        {movie.Title}
+      </Typography>
+
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
+        <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mt: 1 }}>
+          Released: {movieData.startYear}
+        </Typography>
+        {isLoggedIn(userId) && (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => addToWatchlist(userId, movieId)}
+            sx={{ margin: '5px', padding: '8px 16px' }}
+          >
+            Add to Watchlist
+          </Button>
+        )}
+      </div>
+      
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
+        <Typography variant="subtitle1" sx={{ fontWeight: 'bold',mt: 1 }}>
+          Rating: {movieData.rating}
+        </Typography>
+        {isLoggedIn(userId) && (
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => removeFromWatchlist(userId, movieId)}
+            sx={{ margin: '5px', padding: '8px 16px' }}
+          >
+            Remove From Watchlist
+          </Button>
+        )}
+      </div>
+      
+      <Typography variant="subtitle1" sx={{ fontWeight: 'bold', textDecoration: 'underline', mt: 1 }}>
+        Synopsis:
+      </Typography>
+      <Typography variant="subtitle1" sx={{ mt: 0 }}>
+        {movie.Plot}
+      </Typography>
+
+
+      <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center' }}>
+        
+      </div>
+    </div>
+  </div>
+
+  <div style={{ marginTop: 'auto' }}>
+    <Typography variant="h6" sx={{ fontWeight: 'bold', mt: 2 }}>
+      AVAILABLE ON:
+    </Typography>
+    {onNetflix(movieData) && (
+      <Button
+      variant="contained"
+      color="info"
+      sx={{
+        margin: '5px',
+        padding: '8px 16px',
+        backgroundColor: '#E50914',
+        color: '#FFFFFF',
+        '&:hover': {
+          backgroundColor: '#B4060C',
+        },
+      }}
+      onClick={() => window.open('https://www.netflix.com', '_blank')}
+    >
+      Netflix
+    </Button>
+    
+    )}
+    {onHulu(movieData) && (
+      <Button
+      variant="contained"
+      color="info"
+      sx={{
+        margin: '5px',
+        padding: '8px 16px',
+        backgroundColor: '#3DBB3D',
+        color: '#FFFFFF',
+        '&:hover': {
+          backgroundColor: '#2CA52C',
+        },
+      }}
+      onClick={() => window.open('https://www.hulu.com', '_blank')}
+    >
+      Hulu
+    </Button>
+    )}
+    {onDisney(movieData) && (
+      <Button
+      variant="contained"
+      color="info"
+      sx={{
+        margin: '5px',
+        padding: '8px 16px',
+        backgroundColor: '#0B5A9F',
+        color: '#FFFFFF',
+        '&:hover': {
+          backgroundColor: '#0A4C8E',
+        },
+      }}
+      onClick={() => window.open('https://www.disneyplus.com', '_blank')}
+    >
+      Disney+
+    </Button>
+    
+    
+    )}
+    {onPrime(movieData) && (
+      <Button
+      variant="contained"
+      color="info"
+      sx={{
+        margin: '5px',
+        padding: '8px 16px',
+        backgroundColor: '#00A8E1',
+        color: '#FFFFFF',
+        '&:hover': {
+          backgroundColor: '#0071A4',
+        },
+      }}
+      onClick={() => window.open('https://www.amazon.com/gp/video/storefront/ref=atv_hm_hom_legacy_redirect?contentId=IncludedwithPrime&contentType=merch&merchId=IncludedwithPrime', '_blank')}
+    >
+      Amazon Prime
+    </Button>
+    
+    )}
+  </div>
+</Paper>
+
+  
+
+  
   );
 }
 

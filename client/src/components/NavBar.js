@@ -1,4 +1,4 @@
-import { AppBar, Container, Toolbar, Button, Typography } from '@mui/material';
+import { AppBar, Button, Container, Divider, Toolbar, Typography } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import theme from '../theme';
 import { useState, useEffect } from 'react';
@@ -91,7 +91,7 @@ export default function NavBar(props) {
 
   return (
     <>
-      <AppBar position="static">
+      <AppBar position="static" sx={{ boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)' }}>
         <Container maxWidth="xl">
           <Toolbar disableGutters style={{ display: 'flex', justifyContent: 'space-between' }}>
             <WebsiteHome href="/" text="  FLIXFINDER" />
