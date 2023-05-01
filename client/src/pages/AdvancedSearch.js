@@ -196,7 +196,7 @@ export default function App() {
     return (
         <div style = {{width: '100%', height: '100%', fontFamily: 'sans-serif'}}>
         <Paper style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', backgroundColor: theme.palette.tertiary.main, width: "80%", margin: "auto", borderRadius: "20px", boxShadow: "0px 2px 10px rgba(0, 0, 0, .1)" }}>
-            <h1 style={{ marginTop: '50px' }}>Advanced Search</h1>
+            <h1 style={{ marginTop: '50px', fontWeight: 520, letterSpacing: '.2rem' }}>ADVANCED SEARCH</h1>
             <TextField id="outlined-basic" label="Search movies and TV shows..." variant="outlined" value={searchText}
             style={{ width: '70%', height: '60px', fontSize: '28px' , backgroundColor: 'white', padding: '2px'}} onChange={(e) => setSearchText(e.target.value)}/>
             <div style={{ display: 'flex', width: '80%', justifyContent: 'space-between', alignItems: 'start', marginTop: '50px' }}>
@@ -354,7 +354,7 @@ export default function App() {
                 </div>
                 {/* Streaming Services checkboxes */}
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <h2>Streaming Services</h2>
+                    <h2 style = {{fontWeight: 510, letterSpacing: '.15rem'}}>Streaming Services</h2>
                     <FormGroup>
                         <FormControlLabel control={<Checkbox onChange={(e) => 
                             {setStreamingServices({...streamingServices, netflix: !streamingServices.netflix})
@@ -372,7 +372,7 @@ export default function App() {
                 </div>
                 {/* 3 genre input checkboxes */}
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <h2>Genre</h2>
+                    <h2 style = {{fontWeight: 510, letterSpacing: '.15rem'}}>Genres</h2>
                     <TextField id="filled-basic" label="Genre 1" variant="filled" onChange={(e) => setGenre({...genres, genre1: e.target.value})}/>
                     <TextField id="filled-basic" label="Genre 2" variant="filled" onChange={(e) => setGenre({...genres, genre2: e.target.value})}/>
                     <TextField id="filled-basic" label="Genre 3" variant="filled" onChange={(e) => setGenre({...genres, genre3: e.target.value})}/>
@@ -382,7 +382,7 @@ export default function App() {
             <Button variant="contained" onClick={handleSearch}>SEARCH </Button>
             <h2> </h2>
             </Paper>
-            <h2 style={{ marginLeft: '120px' }}>Results</h2>
+            <h2 style={{ marginLeft: '120px', fontWeight: 510, letterSpacing: '.2rem'}}>Results</h2>
             <div style={{ display: 'flex', justifyContent: 'center', margin: '0 auto', marginBottom: '20px', maxWidth: '1202px' }}>
             <DataGrid
                 rows={data}

@@ -58,7 +58,7 @@ const Login = ({ user_id, setUser_id }) => {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '65vh' }}>
         <Card sx={{ backgroundColor: theme.palette.secondary.main, maxWidth: 'sm', padding: 4 }}>
-          <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: 'bold' }}>
+          <Typography variant="h4" align="center" gutterBottom sx={{ fontWeight: 520, letterSpacing: '.15rem'}}>
             LOGIN
           </Typography>
           <TextField id="outlined-basic" 
@@ -67,7 +67,7 @@ const Login = ({ user_id, setUser_id }) => {
                         fullWidth margin="normal" 
                         value={username} 
                         onChange={(e) => setUsername(e.target.value)} 
-                        style={{ backgroundColor: 'white'}}/>
+                        style={{ backgroundColor: 'white',}}/>
           <TextField id="outlined-basic" 
 												variant="outlined"
                         label="Password" 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Paper, Typography} from '@mui/material';
+import { Button, Paper, Rating, Typography} from '@mui/material';
 import { useParams } from 'react-router-dom';
 import theme from '../theme';
 
@@ -130,12 +130,12 @@ function MoviePage(props) {
     />
 
     <div>
-      <Typography variant="h4" sx={{ fontWeight: 'bold', mt: 0 }}>
+      <Typography variant="h3" sx={{ fontWeight: 520, letterSpacing: '.15rem', mt: 0 }}> 
         {movie.Title}
       </Typography>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
-        <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mt: 1 }}>
+        <Typography variant="subtitle1" sx={{ fontWeight: 'bold', letterSpacing: '.1rem', mt: 1 }}>
           Released: {movieData.startYear}
         </Typography>
         {isLoggedIn(userId) && (
@@ -151,9 +151,9 @@ function MoviePage(props) {
       </div>
       
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
-        <Typography variant="subtitle1" sx={{ fontWeight: 'bold',mt: 1 }}>
-          Rating: {movieData.rating}
-        </Typography>
+      <Typography variant="subtitle1" sx={{ fontWeight: 'bold', letterSpacing: '.1rem', mt: 1 }}>
+        Rating: {movieData.rating} 
+      </Typography>
         {isLoggedIn(userId) && (
           <Button
             variant="contained"
@@ -165,11 +165,11 @@ function MoviePage(props) {
           </Button>
         )}
       </div>
-      
-      <Typography variant="subtitle1" sx={{ fontWeight: 'bold', textDecoration: 'underline', mt: 1 }}>
+      <Rating name="movie-rating" value={movieData.rating / 2} precision={0.1} readOnly />
+      <Typography variant="subtitle1" sx={{ fontWeight: 'bold', letterSpacing: '.1rem', textDecoration: 'underline', mt: 1 }}>
         Synopsis:
       </Typography>
-      <Typography variant="subtitle1" sx={{ mt: 0 }}>
+      <Typography variant="subtitle1" sx={{ letterSpacing: '.05rem', mt: 0 }}>
         {movie.Plot}
       </Typography>
 
@@ -181,7 +181,7 @@ function MoviePage(props) {
   </div>
 
   <div style={{ marginTop: 'auto' }}>
-    <Typography variant="h6" sx={{ fontWeight: 'bold', mt: 2 }}>
+    <Typography variant="h6" sx={{ fontWeight: 520, mt: 2 }}>
       AVAILABLE ON:
     </Typography>
     {onNetflix(movieData) && (

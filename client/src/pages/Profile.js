@@ -95,7 +95,7 @@ export default function Profile(props) {
     return (
       <Container>
         <Typography variant="h3" align="left" display="flex" alignItems="center" gutterBottom>
-  <b>{isSearchIdNotNull(searchId) ? searchId : userId}'s Watchlist</b>
+  <b style={{fontWeight: 50, letterSpacing: '.15rem'}}>{isSearchIdNotNull(searchId) ? searchId : userId}'s Watchlist</b>
   <div style={{ marginLeft: 'auto' }}>
     {!isSearchIdNotNull(searchId) && isLoggedIn(userId) && (
       <Button
