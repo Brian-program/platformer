@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, CardContent, CardMedia, Paper, Typography, Link } from '@mui/material';
-
+import { Paper, Typography, Link } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import theme from '../theme';
 
@@ -9,21 +8,25 @@ const API_KEY = 'd2e25fe6';
 const MovieRow = ({ movies }) => {
   const [posterUrls, setPosterUrls] = useState([]);
 
+  //fetches the data from omdb api and places it into the row
   useEffect(() => {
+    //define parallel function to fetch api
     async function fetchPosterUrls() {
       const urls = await Promise.all(movies.slice(0, 10).map(async (movie) => {
         const response = await fetch(`http://www.omdbapi.com/?i=${movie.titleId}&apikey=${API_KEY}`);
         const data = await response.json();
         return data.Poster;
       }));
-      setPosterUrls(urls);
+
+    //call the defined function
+    setPosterUrls(urls);
     }
     fetchPosterUrls();
   }, [movies]);
 
   const tallestButtonHeight = Math.max(...movies.slice(0, 10).map(movie => movie.height));
 
-
+  //return the 5 rows with popup movies shown
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap' }}>
     {movies.slice(0, 10).map((movie, index) => (

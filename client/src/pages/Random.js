@@ -10,12 +10,14 @@ const Random = () => {
     const navigate = useNavigate();
     const [random, setRandom] = useState([]);
 
+    //gets a random movieId
     useEffect(() => {
         fetch(`http://${config.server_host}:${config.server_port}/random`)
             .then(res => res.json())
             .then(resJson => setRandom(resJson));
     }, []);
     
+    //navigates to the random movie page
     useEffect(() => {
         if (random.titleId) {
             navigate(`/movies/${random.titleId}`);

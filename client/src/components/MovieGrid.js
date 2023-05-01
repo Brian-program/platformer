@@ -10,26 +10,34 @@ const API_KEY = 'd2e25fe6';
 
 export default function MovieGrid({moviesData, movieId}) {
 
+  //gets the poster image url
   const [posterUrls, setPosterUrls] = useState({});
   
+  //fetches the data from omdb api and places it into the grid
   useEffect(() => {
     async function fetchData() {
+      // Promise.all to fetch all movie posters in parallel
       const urls = await Promise.all(moviesData.map(async (movie) => {
         const response = await fetch(`http://www.omdbapi.com/?i=${movie.titleId}&apikey=${API_KEY}`);
         const data = await response.json();
         return data.Poster;
       }));
+
+      // Loop through the moviesData array and assign each poster URL to its corresponding titleId
       const newPosterUrls = {};
       for (let i = 0; i < moviesData.length; i++) {
         newPosterUrls[moviesData[i].titleId] = urls[i];
       }
       setPosterUrls(newPosterUrls);
     }
+
+    //calls the defined functon above
     fetchData();
   }, [moviesData]);
 
+  //popout grid of the entire watchlist
   return (
-    <Paper variant="outlined" sx={{ backgroundColor: theme.palette.secondary.main}}>
+  <Paper variant="outlined" sx={{ backgroundColor: theme.palette.secondary.main}}>
   <Paper variant="outlined" sx={{ backgroundColor: theme.palette.secondary.main }}>
   <Grid container spacing={1} alignItems="stretch">
     {moviesData.map((movie, index) => (
@@ -90,15 +98,8 @@ export default function MovieGrid({moviesData, movieId}) {
       </React.Fragment>
     ))}
   </Grid>
-</Paper>
+  </Paper>
 
-</Paper>
-
-    
-
-  
-
-
+  </Paper>
   );
-
 }

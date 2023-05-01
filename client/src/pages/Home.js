@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Container, Card, CardContent, Box, Typography } from '@mui/material';
 import theme from '../theme';
-
-
 import MovieRow from '../components/MovieRow';
+
 const config = require('../config.json');
 
 export default function Home() {
-  // We use the setState hook to persist information across renders (such as the result of our API calls)
   const [topMovies, setTopMovies] = useState([]);
   const [topNetflix, setTopNetflix] = useState([]);
   const [topHulu, setTopHulu] = useState([]);
@@ -15,6 +13,7 @@ export default function Home() {
   const [topDisneyPlus, setTopDisneyPlus] = useState([]);
 
 
+  //fetches all top 10 movies for each category
   useEffect(() => {
     fetch(`http://${config.server_host}:${config.server_port}/top_movies`)
       .then(res => res.json())
@@ -33,6 +32,8 @@ export default function Home() {
       .then(resJson => setTopNetflix(resJson));
   }, []);
 
+
+  //returns the 5 rows of different top ratd categories
   return (
     <Container>
             <Card sx={{backgroundColor: theme.palette.secondary.main, width: '100%'}}>

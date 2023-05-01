@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { Container } from "@mui/system";
 import { Typography, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-
 import MovieGrid from "../components/MovieGrid";
 
 const config = require('../config.json');
@@ -18,23 +17,22 @@ export default function Profile(props) {
 
     const navigate = useNavigate();
 
-    console.log(userId);
-
     //returns true is searchId is not null
     function isSearchIdNotNull(searchId) {
       return typeof searchId !== 'undefined';
     }
 
+    //checks if user is logged in
     function isLoggedIn(userId) {
       return userId !== "";
     }
 
+    //check if the current searched profile is a friend
     function isNotFriends(friend) {
       return friend.length === 0;
     }
 
-    console.log("friend: ", friend);
-
+    //pulls data based on who's profile
     useEffect(() => {
       if(isSearchIdNotNull(searchId)) {
         fetch(`http://${config.server_host}:${config.server_port}/watchlist/${searchId}`)
@@ -52,10 +50,12 @@ export default function Profile(props) {
       }
     }, [searchId, userId]);
 
+    //checks if data pulled is not empty
     function isNotEmpty(array) {
       return array.length !== 0;
     }
 
+    //add friend to friendlist and then navigate to friends page
     function addToFollowings(userId, followId) {
       if(isNotFriends(friend)) {
         fetch(`http://${config.server_host}:${config.server_port}/add_friendlist`, {
@@ -75,7 +75,7 @@ export default function Profile(props) {
       }
     }    
 
-    
+    //delete friend from friendlist and then navigate to friends page
     function removeFromFollowings(userId, followId) {
       fetch(`http://${config.server_host}:${config.server_port}/remove_friendlist`, {
         method: 'DELETE',
@@ -93,6 +93,7 @@ export default function Profile(props) {
       navigate("/friendlist");
     }
 
+    //returns a profile if logged in which includes nice UI for the watchlist and buttons to add/remove if user is not yourself
     return (
       <Container>
         <Typography variant="h3" align="left" display="flex" alignItems="center" gutterBottom>
@@ -122,8 +123,6 @@ export default function Profile(props) {
     )}
   </div>
 </Typography>
-
-
         {isNotEmpty(watchlistData) ? (
           <MovieGrid moviesData = {watchlistData}/>
         ) : (

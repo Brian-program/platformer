@@ -10,16 +10,13 @@ const config = require('../config.json');
 const CreateAccount = ({ user_id, setUser_id }) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [actualLogin, setActualLogin] = useState([]);
-    const [status, setStatus] = useState("");
+    const [actualLogin, setActualLogin] = useState([]); //fetched data to be checked
+    const [status, setStatus] = useState(""); //displayed status if wrong
 
     const navigate = useNavigate();
 
-
+    //if valid username and password that doesn't already exist, add and navigate to login
     useEffect(() => {
-        console.log("user", username);
-        console.log("pass", password);
-        console.log("actualLogin", actualLogin);
         if(isPasswordEmpty(password)) {
             setStatus("Password is Empty");
         } else if (!isActualLoginEmpty()) {
@@ -27,11 +24,11 @@ const CreateAccount = ({ user_id, setUser_id }) => {
         } else if(!isPasswordEmpty(password)) {
             setStatus("");
             addToUsers(username, password);
-            //create the account into database
             navigate('/login');
         }
     }, [actualLogin]);
 
+    //calls the post method to add a user to users
     function addToUsers(userId, password) {
         fetch(`http://${config.server_host}:${config.server_port}/add_user`, {
         method: 'POST',
@@ -48,7 +45,7 @@ const CreateAccount = ({ user_id, setUser_id }) => {
         .catch(error => console.error(error));
       }   
 
-
+      //checks if the username and password are valid
     const isValidLogin = (username, password) => {
         if(username !== "") {
         fetch(`http://${config.server_host}:${config.server_port}/user_login/${username}`)
@@ -62,15 +59,17 @@ const CreateAccount = ({ user_id, setUser_id }) => {
         }
     }
 
-
+    //checks if login is empty
     const isActualLoginEmpty = () => {
         return Array.isArray(actualLogin) && actualLogin.length === 0 || Object.keys(actualLogin).length === 0;
     }
 
+    //checks if password is empty
     const isPasswordEmpty = () => {
         return password === "";
     }
   
+    //returns a nice UI of create account 
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '65vh' }}>
   <Card sx={{ backgroundColor: theme.palette.tertiary.main, maxWidth: 'sm', padding: 4 }}>
@@ -118,9 +117,7 @@ const CreateAccount = ({ user_id, setUser_id }) => {
     )}
   </Card>
 </Box>
-
     );
   };
   
-
 export default CreateAccount;
