@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import theme from '../theme';
 import { useState, useEffect } from 'react';
 
+// name of the website
 const WebsiteHome = ({ href, text }) => {
   return (
     <Typography
@@ -29,6 +30,7 @@ const WebsiteHome = ({ href, text }) => {
   );
 };
 
+// creates buttons for lower half of nav bar
 const NavText = ({ href, text }) => {
   return (
     <Button disableElevation
@@ -56,6 +58,7 @@ const NavText = ({ href, text }) => {
   );
 };
 
+// creates profile button in navbar
 const Profile = ({ href, text }) => {
   return (
     <Button disableElevation
@@ -89,6 +92,7 @@ export default function NavBar(props) {
     setUserId(props.user_id);
   }, [props.user_id]);
 
+  // returns full nav bar with title of website, and all other buttons
   return (
     <>
       <AppBar position="static" sx={{ boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)' }}>

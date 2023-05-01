@@ -3,14 +3,17 @@ import { Link, Box, List, ListItem, ListItemButton } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
 export default function UserList({ userData }) {
+  // if no matching users, does not display list
   if (!userData || userData === null) {
     return <div>No users found</div>;
   }
 
+  // split the resulting user data into 2
   const halfLength = Math.ceil(userData.length / 2);
   const firstColumnData = userData.slice(0, halfLength);
   const secondColumnData = userData.slice(halfLength);
 
+  // returns a 2 column list within a cell with a scroll bar for search
   return (
     <Box
       style={{

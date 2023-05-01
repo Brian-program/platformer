@@ -2,37 +2,34 @@ import { useEffect, useState } from 'react';
 import { Container } from "@mui/system";
 import { Divider, Card, CardContent, Link, TextField, Typography } from '@mui/material';
 import { NavLink } from 'react-router-dom';
-
 import theme from '../theme';
-
-
 import UserList from "../components/UserList";
 import FriendsList from "../components/FriendsList";
 
 const config = require('../config.json');
 
 export default function CommunityPage(props) {
-    const [userId, setUserId]  = useState(props.user_id);
+    const [userId, setUserId]  = useState(props.user_id); // logged in user
+    const [friendData, setFriendData] = useState([]); // user's friends
+    const [searchUser, setSearchUser] = useState(''); // user typed in search
+    const [searchData, setSearchData] = useState([]); // output of search
+    const [allUsers, setAllUsers] = useState([]); // all users
 
-	console.log(props.user_id);
-    const [friendData, setFriendData] = useState([]);
-    const [searchUser, setSearchUser] = useState('');
-    const [searchData, setSearchData] = useState([]);
-    const [allUsers, setAllUsers] = useState([]);
-
-    const handleSearch = (event) => {
+    const handleSearch = (event) => { // calls search user query
         setSearchUser(event.target.value);
     }
 
+	
     useEffect(() => {
+		// fetches the friend of the logged in user
         fetch(`http://${config.server_host}:${config.server_port}/friendlist/${userId}`)
             .then(res => res.json())
             .then(resJson => setFriendData(resJson));
-
+		// fetches all users in db
         fetch(`http://${config.server_host}:${config.server_port}/all_users`)
             .then(res => res.json())
             .then(resJson => setAllUsers(resJson));
-
+		// fetches searched users when search is being used
         if (searchUser !== '') {
             fetch(`http://${config.server_host}:${config.server_port}/search_user/${searchUser}`)
                 .then(res => res.json())
@@ -41,20 +38,22 @@ export default function CommunityPage(props) {
                     setSearchData(usersById);
                 });
         }
-    }, [searchUser]);
+    }, [searchUser]); // updates when text field changes
 
-    function isEmptyString(str) {
+    function isEmptyString(str) { // checks for empty text field
         return str.length === 0;
     }
 
-    function isObjectEmpty(obj) {
+    function isObjectEmpty(obj) { // checks for matching users
         return Object.keys(obj).length === 0;
     }
 	
-	function isLoggedIn(userId) {
+	function isLoggedIn(userId) { // checks if user is logged in
 		return userId !== "";
-	  }
+	}
 
+	// returns a text field for user to type in a user name to find users/friends and a corresponding result output
+	// under it, also returns the user's friends list if logged in, otherwise a route to go to login page
     return (
 			<>
         <Container>

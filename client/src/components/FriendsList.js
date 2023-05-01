@@ -3,12 +3,13 @@ import { Link, Box, List, ListItem, ListItemButton } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
 export default function UserList({ userData }) {
-
+  // given a list of users, format users for desired friendslist
+  // returns a list of friends based on input
   return (
     <Box style={{
       display: 'flex',
-      height: '550px', // Set the desired height of the cell
-      overflowY: 'auto', // Enable vertical scrolling
+      height: '550px',
+      overflowY: 'auto',
     }}>
       <List style={{ flex: 1, padding: 0 }}>
         {userData.map((friend) => (
