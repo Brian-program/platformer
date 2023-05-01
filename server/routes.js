@@ -11,7 +11,7 @@ const connection = mysql.createConnection({
 });
 connection.connect((err) => err && console.log(err));
 
-
+//GET random movie/tv show
 const random = async function(req, res) {
   connection.query(`
     SELECT titleId
@@ -30,27 +30,23 @@ const random = async function(req, res) {
 
 // GET /movie/:title_id
 const movies = async function(req, res) {
-
   //returns all info about imdb movie including streaming service if it exists
   const titleId = req.params.titleId;
   connection.query(`
-  SELECT *
-      FROM (SELECT * FROM 
-          (SELECT akas.titleId, 
-          akas.title, 
-          ratings.averageRating AS rating,
-          crew.directors, 
-          basics.startYear, 
-          basics.endYear, 
-          basics.runtimeMinutes AS duration, 
-          basics.genres AS genre
-          FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN crew ON akas.titleId = crew.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
-          ) imdb
-        WHERE titleId = '${titleId}'
-        ) selected_movie 
-      LEFT JOIN kaggle 
-      ON selected_movie.title = kaggle.title
-      WHERE titleId = '${titleId}'
+  SELECT titleId, selected_movie.title as title, rating, startYear, endYear, duration, genre, Netflix, Hulu, PrimeVideo, DisneyPlus
+  FROM (SELECT *
+        FROM (SELECT akas.titleId,
+            akas.title,
+            ratings.averageRating AS rating,
+            basics.startYear,
+            basics.endYear,
+            basics.runtimeMinutes AS duration,
+            basics.genres AS genre
+            FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst
+                 LEFT JOIN basics ON akas.titleId = basics.tconst) imdb
+        WHERE titleId = '${titleId}') selected_movie
+         LEFT JOIN kaggle ON selected_movie.title = kaggle.title
+  WHERE titleId = '${titleId}'
   `, (err, data) => {
     if (err || data.length === 0) {
       console.log(err);
@@ -134,16 +130,15 @@ const watchlist = async function(req, res) {
 // GET /top_movies
 const top_movies = async function(req, res) {
   connection.query(`
-    SELECT DISTINCT titleId, title
+    SELECT titleId, title
     FROM (SELECT akas.titleId, 
       akas.title, 
       ratings.averageRating AS rating,
-      crew.directors, 
       basics.startYear, 
       basics.endYear, 
       basics.runtimeMinutes AS duration, 
       basics.genres AS genre
-      FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN crew ON akas.titleId = crew.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
+      FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
       ) imdb
     ORDER BY rating DESC
     LIMIT 10
@@ -160,20 +155,19 @@ const top_movies = async function(req, res) {
 // GET /top_netflix
 const top_netflix = async function(req, res) {
   connection.query(`
-  SELECT DISTINCT titleId, imdb.title
-    FROM (SELECT akas.titleId, 
+  SELECT titleId, imdb.title
+  FROM (SELECT akas.titleId, 
       akas.title, 
       ratings.averageRating AS rating,
-      crew.directors, 
       basics.startYear, 
       basics.endYear, 
       basics.runtimeMinutes AS duration, 
       basics.genres AS genre
-      FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN crew ON akas.titleId = crew.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
+      FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
       ) imdb LEFT JOIN kaggle ON imdb.title = kaggle.title
-    WHERE Netflix = 1
-    ORDER BY RottenTomatoes DESC
-    LIMIT 10
+  WHERE Netflix = 1
+  ORDER BY RottenTomatoes DESC
+  LIMIT 10
   `, (err, data) => {
     if (err || data.length === 0) {
       console.log(err);
@@ -188,16 +182,15 @@ const top_netflix = async function(req, res) {
 // GET /top_hulu
 const top_hulu = async function(req, res) {
   connection.query(`
-  SELECT DISTINCT titleId, imdb.title
+  SELECT titleId, imdb.title
     FROM (SELECT akas.titleId, 
       akas.title, 
       ratings.averageRating AS rating,
-      crew.directors, 
       basics.startYear, 
       basics.endYear, 
       basics.runtimeMinutes AS duration, 
       basics.genres AS genre
-      FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN crew ON akas.titleId = crew.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
+      FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
       ) imdb 
     LEFT JOIN kaggle ON imdb.title = kaggle.title
     WHERE Hulu = 1
@@ -216,16 +209,15 @@ const top_hulu = async function(req, res) {
 // GET /top_DisneyPlus
 const top_DisneyPlus = async function(req, res) {
   connection.query(`
-  SELECT DISTINCT titleId, imdb.title
+  SELECT titleId, imdb.title
     FROM (SELECT akas.titleId, 
       akas.title, 
       ratings.averageRating AS rating,
-      crew.directors, 
       basics.startYear, 
       basics.endYear, 
       basics.runtimeMinutes AS duration, 
       basics.genres AS genre
-      FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN crew ON akas.titleId = crew.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
+      FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
       ) imdb
     LEFT JOIN kaggle ON imdb.title = kaggle.title
     WHERE DisneyPlus = 1
@@ -244,16 +236,15 @@ const top_DisneyPlus = async function(req, res) {
 // GET /top_PrimeVideo
 const top_PrimeVideo = async function(req, res) {
   connection.query(`
-    SELECT DISTINCT titleId, imdb.title
+    SELECT titleId, imdb.title
     FROM (SELECT akas.titleId, 
       akas.title, 
       ratings.averageRating AS rating,
-      crew.directors, 
       basics.startYear, 
       basics.endYear, 
       basics.runtimeMinutes AS duration, 
       basics.genres AS genre
-      FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN crew ON akas.titleId = crew.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
+      FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
       ) imdb
     LEFT JOIN kaggle ON imdb.title = kaggle.title
     WHERE PrimeVideo = 1
@@ -273,16 +264,15 @@ const top_PrimeVideo = async function(req, res) {
 const simple_search = async function(req, res) {
   const title = req.params.title;
   connection.query(`
-    SELECT DISTINCT titleId, imdb.title
+    SELECT  titleId, imdb.title
     FROM (SELECT akas.titleId, 
       akas.title, 
       ratings.averageRating AS rating,
-      crew.directors, 
       basics.startYear, 
       basics.endYear, 
       basics.runtimeMinutes AS duration, 
       basics.genres AS genre
-      FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN crew ON akas.titleId = crew.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
+      FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
       ) imdb
     WHERE title LIKE '${title}'
     LIMIT 5
@@ -296,44 +286,41 @@ const simple_search = async function(req, res) {
   });
 }
 
-
 //GET /advanced_search
 const advanced_search = async function(req, res) {
-    const title = req.query.title ?? '';
-    const durationMin = req.query.durationMin ?? 1;
-    const durationMax = req.query.durationMax ?? 1320;
-    const yearMin = req.query.yearMin ?? 1888;
-    const yearMax = req.query.yearMax ?? 2026;
-    const ratingMin = req.query.ratingMin ?? 0;
-    const ratingMax = req.query.ratingMax ?? 10;
-    const genre1 = req.query.genre1 ?? '';
-    const genre2 = req.query.genre2 ?? '';
-    const genre3 = req.query.genre3 ?? '';
-    const netflix = req.query.netflix ?? 0;
-    const hulu = req.query.hulu ?? 0;
-    const disney = req.query.disney ?? 0;
-    const prime = req.query.prime ?? 0;
+  const title = req.query.title ?? '';
+  const durationMin = req.query.durationMin ?? 1;
+  const durationMax = req.query.durationMax ?? 1320;
+  const yearMin = req.query.yearMin ?? 1888;
+  const yearMax = req.query.yearMax ?? 2026;
+  const ratingMin = req.query.ratingMin ?? 0;
+  const ratingMax = req.query.ratingMax ?? 10;
+  const genre1 = req.query.genre1 ?? '';
+  const genre2 = req.query.genre2 ?? '';
+  const genre3 = req.query.genre3 ?? '';
+  const netflix = req.query.netflix ?? 0;
+  const hulu = req.query.hulu ?? 0;
+  const disney = req.query.disney ?? 0;
+  const prime = req.query.prime ?? 0;
 
-    if (netflix == 0 && hulu == 0 && disney == 0 && prime == 0) {
+  if (netflix == 0 && hulu == 0 && disney == 0 && prime == 0) {
     connection.query(`
-        SELECT *
-        FROM (SELECT akas.titleId, 
-          akas.title, 
+      SELECT titleId, imdb.title AS title, rating, startYear, endYear, duration, genres, Netflix, Hulu, PrimeVideo, DisneyPlus
+      FROM (SELECT akas.titleId,
+          akas.title,
           ratings.averageRating AS rating,
-          crew.directors, 
-          basics.startYear, 
-          basics.endYear, 
-          basics.runtimeMinutes AS duration, 
+          basics.startYear,
+          basics.endYear,
+          basics.runtimeMinutes AS duration,
           basics.genres AS genres
-        FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN crew ON akas.titleId = crew.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
-        ) imdb
-        LEFT JOIN kaggle ON imdb.title = kaggle.title
-        WHERE imdb.title LIKE '${title}%' AND
+          FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN basics ON akas.titleId = basics.tconst
+      ) imdb LEFT JOIN kaggle ON imdb.title = kaggle.title
+      WHERE imdb.title LIKE '%${title}%' AND
         rating >= ${ratingMin} AND rating <= ${ratingMax} AND
         startYear >= ${yearMin} AND startYear <= ${yearMax} AND
         duration >= ${durationMin} AND duration <= ${durationMax} AND
         (genres LIKE '%${genre1}%' AND genres LIKE '%${genre2}%' AND genres LIKE '%${genre3}%')
-        ORDER BY Netflix DESC, Hulu DESC, PrimeVideo DESC, DisneyPlus DESC, imdb.rating DESC
+      ORDER BY Netflix DESC, Hulu DESC, PrimeVideo DESC, DisneyPlus DESC, imdb.rating DESC
     `, (err, data) => {
         if (err || data.length === 0) {
         console.log(err);
@@ -342,41 +329,39 @@ const advanced_search = async function(req, res) {
         res.json(data);
         }
     });
-    } else {
-        connection.query(`
-        SELECT *
-        FROM (SELECT akas.titleId, 
-          akas.title, 
+  } else {
+      connection.query(`
+      SELECT titleId, imdb.title AS title, rating, startYear, endYear, duration, genres, Netflix, Hulu, PrimeVideo, DisneyPlus
+      FROM (SELECT akas.titleId,
+          akas.title,
           ratings.averageRating AS rating,
-          crew.directors, 
-          basics.startYear, 
-          basics.endYear, 
-          basics.runtimeMinutes AS duration, 
+          basics.startYear,
+          basics.endYear,
+          basics.runtimeMinutes AS duration,
           basics.genres AS genres
-        FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN crew ON akas.titleId = crew.tconst LEFT JOIN basics ON akas.titleId = basics.tconst      
-        ) imdb
-        LEFT JOIN kaggle ON imdb.title = kaggle.title
-        WHERE imdb.title LIKE '${title}%' AND
+          FROM akas LEFT JOIN ratings ON akas.titleId = ratings.tconst LEFT JOIN basics ON akas.titleId = basics.tconst
+      ) imdb LEFT JOIN kaggle ON imdb.title = kaggle.title
+      WHERE imdb.title LIKE '%${title}%' AND
         rating >= ${ratingMin} AND rating <= ${ratingMax} AND
         startYear >= ${yearMin} AND startYear <= ${yearMax} AND
         duration >= ${durationMin} AND duration <= ${durationMax} AND
         (genres LIKE '%${genre1}%' AND genres LIKE '%${genre2}%' AND genres LIKE '%${genre3}%')
         AND (
-        (Netflix = ${netflix} AND Netflix = 1)  OR 
-        (Hulu = ${hulu} AND Hulu = 1) OR 
-        (PrimeVideo = ${prime} AND PrimeVideo = 1) OR 
-        (DisneyPlus = ${disney} AND DisneyPlus = 1)
+          (Netflix = ${netflix} AND Netflix = 1)  OR 
+          (Hulu = ${hulu} AND Hulu = 1) OR 
+          (PrimeVideo = ${prime} AND PrimeVideo = 1) OR 
+          (DisneyPlus = ${disney} AND DisneyPlus = 1)
         )
-        ORDER BY imdb.rating DESC
-    `, (err, data) => {
-        if (err || data.length === 0) {
-        console.log(err);
-        res.json([]);
-        } else {
-        res.json(data);
-        }
+      ORDER BY imdb.rating DESC
+  `, (err, data) => {
+      if (err || data.length === 0) {
+      console.log(err);
+      res.json([]);
+      } else {
+      res.json(data);
+      }
     });
-    }
+  }
 }
 
 // GET /all_users
@@ -395,10 +380,8 @@ const all_users = async function(req, res) {
   });
 }
 
-
 // GET /search_user/:userId
 const search_user = async function(req, res) {
-
   //returns a list of userIds from searching for a specific username
   const userId = req.params.userId;
   connection.query(`
@@ -417,7 +400,6 @@ const search_user = async function(req, res) {
 
 // GET /user_login/:userId
 const user_login = async function(req, res) {
-
   //returns a password for a specific userId
   const username = req.params.username;
   connection.query(`
@@ -478,8 +460,7 @@ const add_user = async function(req, res) {
   });
 }
 
-
-//DELETE
+//DELETE user from friendslist
 const remove_friendlist = async function(req, res) {
   let body = '';
   req.on('data', chunk => {
@@ -501,8 +482,7 @@ const remove_friendlist = async function(req, res) {
   });
 }
 
-
-// POST
+// POST add movie to one's watchlist
 const add_watchlist = async function(req, res) {
   console.log("add watchlist");
   let body = '';
@@ -526,7 +506,7 @@ const add_watchlist = async function(req, res) {
   });
 }
 
-//DELETE
+//DELETE remove movie from one's watchlist
 const remove_watchlist = async function(req, res) {
   let body = '';
   req.on('data', chunk => {
@@ -565,11 +545,9 @@ module.exports = {
   search_user,
   user_login,
   getUserMovie,
-
   add_friendlist,
   add_watchlist,
   remove_watchlist,
   add_user,
-
   remove_friendlist,
 }

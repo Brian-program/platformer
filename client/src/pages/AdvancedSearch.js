@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import MovieRow from '../components/MovieRow';
 import * as React from 'react';
 import {TextField, Box, Slider, Button, Grid, Typography, Checkbox,
-     FormGroup, FormControl, FormControlLabel, Link, InputLabel, MenuItem, Select} from '@mui/material';
+     FormGroup, FormControlLabel, Link} from '@mui/material';
 import MuiInput from '@mui/material/Input';
 import { styled } from '@mui/material/styles'; 
 import { DataGrid } from '@mui/x-data-grid';
@@ -27,11 +26,9 @@ export default function App() {
         genre2: '',
         genre3: '',
     });
-    const [sortBy, setSortBy] = useState('');
     //data for query output
     const [pageSize, setPageSize] = useState(10);
     const [data, setData] = useState([]);
-    const [selectedTitleId, setSelectedTitleId] = useState(null);
 
 
 
@@ -121,10 +118,6 @@ export default function App() {
         }
     };
 
-    //SELECT BOX HANDLER
-    const handleSelectChange = (event) => {
-        setSortBy(event.target.value);
-    };
 
     useEffect(() => {
         fetch(`http://${config.server_host}:${config.server_port}/advanced_search`)
@@ -142,28 +135,6 @@ export default function App() {
 
     const handleSearch = () => {
         // handle search functionality
-        console.log('INPUTS')
-        console.log('Seach input: ', searchText);
-        console.log('Start Year: ', year[0]);
-        console.log('End Year: ', year[1]);
-        console.log('Min Duration: ', duration[0]);
-        console.log('Max Duration: ', duration[1]);
-        console.log('Min Rating: ', rating[0]);
-        console.log('Max Rating: ', rating[1]);
-        console.log('Netflix: ', streamingServices.netflix);
-        console.log('Hulu: ', streamingServices.hulu);
-        console.log('Prime: ', streamingServices.primeVideo);
-        console.log('Disney: ', streamingServices.disneyPlus);
-        console.log('Genre 1: ', genres.genre1);
-        console.log('Genre 2: ', genres.genre2);
-        console.log('Genre 3: ', genres.genre3);
-        console.log('Sort by: ', sortBy);
-        console.log('netflix: ', netflix);
-        console.log('hulu: ', hulu);
-        console.log('disney: ', disney);
-        console.log('prime: ', prime);
-
-
         fetch(`http://${config.server_host}:${config.server_port}/advanced_search?title=${searchText}` +
         `&durationMin=${duration[0]}&durationMax=${duration[1]}` +
         `&yearMin=${year[0]}&yearMax=${year[1]}` +
@@ -183,10 +154,8 @@ export default function App() {
             const contentWithId = resJson.map((content) => ({ id: content.titleId, ...content }));
             setData(contentWithId);
         });
-        console.log('Query output: ', data);
     };
     const columns = [
-        // { field: 'image', headerName: 'Image'},
         { field: 'title', headerName: 'Title', width: 300, renderCell: (params) => (
             <Link component={NavLink} to={`/movies/${params.row.titleId}`} style={{ textDecoration: 'none', color: 'blue' }}>
               {params.row.title}</Link>
@@ -206,6 +175,7 @@ export default function App() {
         <div style = {{width: '100%', height: '100%', fontFamily: 'sans-serif'}}>
             <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
             <h1 style={{ marginTop: '50px' }}>Advanced Search</h1>
+            {/* <TextField id="filled-basic" label="Search movies and TV shows..." variant="standard" onChange={(e) => setSearchText(e.target.value)}/> */}
             <input
                 type="text"
                 value={searchText}
@@ -389,28 +359,6 @@ export default function App() {
                     <TextField id="filled-basic" label="Genre 1" variant="filled" onChange={(e) => setGenre({...genres, genre1: e.target.value})}/>
                     <TextField id="filled-basic" label="Genre 2" variant="filled" onChange={(e) => setGenre({...genres, genre2: e.target.value})}/>
                     <TextField id="filled-basic" label="Genre 3" variant="filled" onChange={(e) => setGenre({...genres, genre3: e.target.value})}/>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <h2>Sort By</h2>
-                    <div>
-                        <FormControl variant="filled" sx={{ minWidth: 200}}>
-                        <InputLabel id="demo-select-small-label">Sort By</InputLabel>
-                        <Select
-                            labelId="demo-select-small-label"
-                            id="demo-select-small"
-                            value={sortBy}
-                            label="Sort By"
-                            onChange={handleSelectChange}
-                        >
-                            <MenuItem value="">
-                            <em>None</em>
-                            </MenuItem>
-                            <MenuItem value={"Alphabetical"}>Alphabetical</MenuItem>
-                            <MenuItem value={"Rating"}>Rating</MenuItem>
-                            <MenuItem value={"Year Released"}>Year Released</MenuItem>
-                        </Select>
-                        </FormControl>
-                    </div>
                 </div>
             </div>
             <h2></h2>
