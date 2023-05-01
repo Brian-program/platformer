@@ -92,23 +92,6 @@ const getFriend = async function(req, res) {
   });
 }
 
-const getUserMovie = async function(req, res) {
-  const userId = req.params.userId;
-  const titleId = req.params.titleId;
-  connection.query(`
-    SELECT titleId
-    FROM watchlist
-    WHERE userId = '${userId}' AND titleId = '${titleId}'
-  `, (err, data) => {
-    if (err || data.length === 0) {
-      console.log(err);
-      res.json({});
-    } else {
-      res.json(data);
-    }
-  });
-}
-
 // GET /watchlist/:userId
 const watchlist = async function(req, res) {
   const userId = req.params.userId;
@@ -544,7 +527,6 @@ module.exports = {
   all_users,
   search_user,
   user_login,
-  getUserMovie,
   add_friendlist,
   add_watchlist,
   remove_watchlist,

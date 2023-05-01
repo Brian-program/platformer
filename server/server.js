@@ -24,7 +24,6 @@ app.get('/search_user/:userId', routes.search_user);
 app.get('/all_users', routes.all_users);
 app.get('/user_login/:username', routes.user_login);
 app.get('/getFriend/:userId/:followId', routes.getFriend);
-app.get('getUserMovie/:userId/:titleId', routes.getUserMovie);
 
 //post methods
 app.post('/add_friendlist', routes.add_friendlist);

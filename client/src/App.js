@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from '@mui/material'
-import { cyan, amber } from '@mui/material/colors'
-import { createTheme } from "@mui/material/styles";
+
 import theme from './theme';
 
 import React, { useState } from 'react';
@@ -12,7 +11,6 @@ import Login from './pages/Login';
 import Logout from './pages/Logout';
 import Random from './pages/Random';
 import MoviePage  from './pages/MoviePage';
-import AlbumInfoPage from './pages/AlbumInfoPage'
 import AdvancedSearch from './pages/AdvancedSearch'
 import CommunityPage from "./pages/CommunityPage";
 import CreateAccount from "./pages/CreateAccount";
@@ -36,7 +34,6 @@ export default function App() {
           <Route path="/create_account" element={<CreateAccount user_id={user_id} setUser_id={setUser_id}/>} />
           <Route path="/profile" element={<Profile user_id={user_id} setUser_id={setUser_id}/>} />
           <Route path="/profile/:searchId" element={<Profile user_id={user_id}/>} />
-          <Route path="/albums/:album_id" element={<AlbumInfoPage />} />
           <Route path="/advanced_search/" element={<AdvancedSearch/>} />
           <Route path="/friendlist" element={<CommunityPage user_id={user_id}/>} />
           <Route path="/random" element={<Random/>} />

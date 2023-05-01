@@ -1,5 +1,5 @@
-import { Grid, Card, CardMedia, CardContent, Typography } from '@mui/material';
-import { Container, Divider, Link, Paper } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
+import { Divider, Link, Paper } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import theme from '../theme';

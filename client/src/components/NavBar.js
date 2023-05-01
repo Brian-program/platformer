@@ -1,4 +1,4 @@
-import { AppBar, Button, Container, Divider, Toolbar, Typography } from '@mui/material';
+import { AppBar, Button, Container, Toolbar, Typography } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import theme from '../theme';
 import { useState, useEffect } from 'react';

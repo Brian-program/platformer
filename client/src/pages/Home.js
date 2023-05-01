@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { Container, Card, CardContent, Box, Typography } from '@mui/material';
-import { NavLink } from 'react-router-dom';
 import theme from '../theme';
 
 
