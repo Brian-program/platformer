@@ -22,7 +22,7 @@ The website has a total of seven pages:
 
 # **Technology**
 
-FlixFinder is built using a backend consisting of mySQL and Node.js connected to a frontend consisting of HTML, CSS, and React.js through express middleware.
+FlixFinder is built using a backend consisting of mySQL and Node.js connected to a frontend consisting of HTML, CSS, and React.js through express middleware. Backend hosted on AWS.
 
 # **API and DataSet**
 
