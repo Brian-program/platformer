@@ -175,14 +175,8 @@ export default function App() {
         <div style = {{width: '100%', height: '100%', fontFamily: 'sans-serif'}}>
             <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
             <h1 style={{ marginTop: '50px' }}>Advanced Search</h1>
-            {/* <TextField id="filled-basic" label="Search movies and TV shows..." variant="standard" onChange={(e) => setSearchText(e.target.value)}/> */}
-            <input
-                type="text"
-                value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
-                placeholder="Search movies and TV shows..."
-                style={{ width: '70%', height: '60px', fontSize: '24px' }}
-            />
+            <TextField id="filled-basic" label="Search movies and TV shows..." variant="outlined" value={searchText}
+            style={{ width: '70%', height: '60px', fontSize: '28px' }} onChange={(e) => setSearchText(e.target.value)}/>
             <div style={{ display: 'flex', width: '80%', justifyContent: 'space-between', alignItems: 'start', marginTop: '50px' }}>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <h2></h2>
