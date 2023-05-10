@@ -31,3 +31,6 @@ API source comes from OMDB and dataset comes from IMDB
 # **Usage**
 
 To use FlixFinder, make sure to use npm install before running the server and client with npm start.
+
+# **Demo**
+https://www.youtube.com/watch?v=Xu9F1s1wrNs
